@@ -1,0 +1,32 @@
+/* L E N T I    I S    A    C U L T    F A M I L Y */
+html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Tienne', serif; }
+*, *:after, *:before { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+.wrap {
+	padding: 1em;
+	margin: 0 auto;
+	max-width: 30em;
+	background: steelblue;
+}
+
+.opener {
+	text-align: center;
+	color: white;
+}
+
+
+
+
+
+
+
+
+
+.game-wrap {}
+.game-header {}
+.game-wrap .world {}
+.lenti {
+	width: 4em;
+	height: 4em;
+	background: tomato;
+}
