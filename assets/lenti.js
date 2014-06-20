@@ -174,5 +174,44 @@ function showAchievements() {
 
 function playGame() {
     console.log('almost, my pet');
+
+    //prepare the game screen
+    var i = gls('clan')
+    lenti[0] = 100;
+    document.getElementById('movesLeft').textContent = lenti[0];
+
+    //question modal?
+    document.getElementById('hasQuestion').addEventListener('click', showAboutGame, false);
+
+    //size the blocks
+    var block = lgame_s.querySelector('.blocks');
+    block.style.height = lgame_s.offsetWidth + 'px';
+    //dimension
+    var d = lgame_s.offsetWidth / 5;
+
+    //position lenti
+    p = [0, (d), (d*2), (d*3), (d*4)];
+    lenti.style.top = p[lenti_info[2]] + 'px';
+    lenti.style.left = p[lenti_info[1]] + 'px';
+    lenti.style.height = lenti.offsetWidth + 'px';
+    // lenti.style.backgroundimage = 'url(' + lenti_clans[i].lenti + ')';
+
+    //show the game screen
+    lclan_s.style.right = '100%';
+    lgame_s.style.right = 0;
+
+    //start the messages
+
 }
 
+var lenti = document.getElementById('lenti');
+var lenti_info = [
+    0,      //moves
+    2,      //x coordinate
+    2       //y coordinate
+];
+var p = [];
+
+function showAboutGame() {
+    console.log('I can\'t answer you yet');
+}
