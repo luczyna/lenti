@@ -10,23 +10,74 @@
 
 	<body>
 		<div class="container">
-			<div class="home" id="homeScreen"></div>
+			<div class="home" id="homeScreen">
+				<h1>Lentibam</h1>
 
-			<div class="setup" id="setupScreen"></div>
+				<a class="button green" id="startPlaying">play</a>
+				<a class="button blue" id="chooseClan">choose your clan</a>
 
-			<div class="clan-overview" id="clanScreen"></div>
+				<hr>
+				<p>by tropvache and friends</p> 
+			</div>
 
-			<div class="treasure-collection" id="treasureScreen"></div>
+			<div class="setup" id="setupScreen">
+				<h2>choose a clan</h2>
 
-			<div class="achievement-list" id="achievementScreen"></div>
+				<div class="clan-options clearfix">
+					<img src="" />
+					<img src="" />
+					<img src="" />
+				</div>
+
+				<p></p>
+
+				<a class="button green" data-clan="">pick this clan</a>
+			</div>
+
+			<div class="clan-overview" id="clanScreen">
+				<h2>Clan</h2>
+
+				<div class="stuff clearfix">
+					<img src="" />
+
+					<div class="options">
+						<a class="button green" id="playGame">play</a>
+						<a class="button blue" id="treasureList">treasures</a>
+						<a class="button blue" id="achievementList">achievements</a>
+					</div>
+				</div>
+
+				<ul class="messages" id="messages">
+					<li>Welcome to the day. Let's do what we can for the hoard</li>
+				</ul>
+			</div>
+
+			<div class="treasure-collection" id="treasureScreen">
+				<div class="sticky-top">
+					<a class="button blue backToClan">back to clan</a>
+				</div>
+
+				<h2>Nothing Here</h2>
+				<p>Your clan has no treasures to claim as their own. You should go fix that.</p>
+			</div>
+
+			<div class="achievement-list" id="achievementScreen">
+				<div class="sticky-top">
+					<a class="button blue backToClan">back to clan</a>
+				</div>
+
+				<ul class="ach-ls"></ul>
+			</div>
 
 			<div class="game" id="gameScreen"></div>
 
 			<div class="modals" id="modalScreen"></div>
 		</div>
 
-		<script type="text/javascript" src="script.js"></script>
-		<script type="text/javascript" src="lenti.js"></script>
+		<script type="text/javascript" src="assets/script.js"></script>
+		<script type="text/javascript" src="assets/lenti.js"></script>
+		<script type="text/javascript" src="assets/helpers.js"></script>
+		<script type="text/javascript" src="assets/clans.js"></script>
 
 	</body>
 </html>

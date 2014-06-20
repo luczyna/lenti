@@ -1,8 +1,199 @@
 /* L E N T I    I S    A    C U L T    F A M I L Y */
-html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Tienne', serif; }
+html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code Pro', serif; }
 *, *:after, *:before { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
 .clearfix:before,
 .clearfix:after { content: " "; display: table; }
 .clearfix:after { clear: both; }
 
+
+/* COLOURS
+ * blue		#00B2FF
+ * green	#00B223
+ * red		#FF0027
+ * orange 	#FF8900
+ * white 	#F4FCFC
+ * black 	#3B3D3D
+ */
+
+.blue { background: #00B2FF; }
+.green { background: #00B223; }
+.red { background: #FF0027; }
+.orange { background: #FF8900; }
+.white { background: #F4FCFC; }
+.black { background: #3B3D3D; }
+.blue-text { color: #00B2FF; }
+.green-text { color: #00B223; }
+.red-text { color: #FF0027; }
+.orange-text { color: #FF8900; }
+.white-text { color: #F4FCFC; }
+.black-text { color: #3B3D3D; }
+
+
+.container {
+	max-width: 40em;
+	margin: 0 auto;
+	/*padding: 0 0.25em;*/
+	position: relative;
+	overflow-x: hidden;
+}
+.button {
+	padding: 0.2em 0.5em;
+}
+
+.home, .setup, .clan-overview,
+.treasure-collection,
+.achievement-list, .game, .modals {
+	position: absolute;
+	width: 100%;
+	padding: 0 1%;
+	top: 0;
+	-o-transition: right 0.3s ease-in;
+	-ms-transition: right 0.3s ease-in;
+	-moz-transition: right 0.3s ease-in;
+	-webkit-transition: right 0.3s ease-in;
+	transition: right 0.3s ease-in;
+}
+
+
+/* home screen */
+.home {
+	right: 0;
+	text-align: center;
+}
+.home h1 {
+	font-size: 2em;
+	margin: 1em 0;
+}
+.home a {
+	text-decoration: none;
+	color: white;
+	display: block;
+	width: 50%;
+	margin: 0 auto 0.5em;
+}
+.home #startPlaying {
+	display: none;
+}
+.home hr {
+	margin: 2em 0;
+	background: #cacaca;
+	height: 1px;
+	border: 0;
+}
+.home p {
+	margin: 0 auto 1em;
+}
+
+
+
+
+
+
+
+
+
+/* setup the clan screens */
+.setup {
+	right: -100%;
+}
+.setup h2 {
+	text-align: center;
+}
+.setup .clan-options {}
+.clan-options img {
+	float: left;
+	width: 33.33%;
+	height: auto;
+	display: block;
+	margin: 0;
+	padding: 2% 5%;
+}
+.clan-options .active {
+	outline: 2px tomato solid;
+}
+.setup p {}
+.setup .button {
+	color: white;
+	display: block;
+	width: 50%;
+	margin: 0 auto;
+	font-size: 1.5em;
+	text-align: center;
+	opacity: 0;
+	-o-transition: opacity 0.2s ease-out;
+	-ms-transition: opacity 0.2s ease-out;
+	-moz-transition: opacity 0.2s ease-out;
+	-webkit-transition: opacity 0.2s ease-out;
+	transition: opacity 0.2s ease-out;
+}
+
+
+
+
+
+
+
+
+
+/* clan overview page */
+.clan-overview {
+	right: -100%;
+}
+.clan-overview h2 {
+	text-align: center;
+}
+.clan-overview .stuff {
+	margin: 0 auto 1em;
+}
+.stuff img {
+	float: left;
+	width: 50%;
+	height: auto;
+	padding: 0 10% 0 10%;
+	display: block;
+	margin: 0;
+}
+.stuff .options {
+	float: left;
+	width: 50%;
+}
+.options .button {
+	display: block;
+	text-align: center;
+	margin: 0 auto 0.5em;
+}
+.clan-overview .messages {
+	padding: 0.5em;
+	margin: 0 auto 1em;
+	background: #3B3D3D;
+	color: #F4FCFC;
+}
+.messages li {
+	padding: 0;
+	margin: 0 0 0.5em;
+	line-height: 1.2;
+}
+
+
+
+
+
+
+
+
+
+
+/* pick at these */
+.treasure-collection {
+	right: -100%;
+}
+.achievement-list {
+	right: -100%;
+}
+.game {
+	right: -100%;
+}
+.modals {
+	right: -100%;
+}
