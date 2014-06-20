@@ -134,8 +134,14 @@ function updateClanOverview() {
     //start our scrolling message board
     //m = window.setInterval(messageBoard, 2000);
 }
-function updateTreasures() {}
-function updateAchievements() {}
+function updateTreasures() {
+    //get us out of here
+    ltreasure_s.querySelector('.backToClan').addEventListener('click', backToClan, false);
+}
+function updateAchievements() {
+    //get us out of here
+    lachieve_s.querySelector('.backToClan').addEventListener('click', backToClan, false);
+}
 function backToClan() {
     //where are we returning from?
     var from = document.getElementById(this.parentNode.parentNode.id);
@@ -145,10 +151,27 @@ function backToClan() {
 }
 function showTreasures() {
     console.log('almost, greedy pig');
+    updateTreasures();
+
+    lclan_s.style.right = '100%';
+    ltreasure_s.style.right = '0';
 }
 function showAchievements() {
     console.log('almost, you spurring wildhorse');
+    updateAchievements();
+
+    lclan_s.style.right = '100%';
+    lachieve_s.style.right = '0';
 }
+
+
+
+
+
+
+
+
+
 function playGame() {
     console.log('almost, my pet');
 }
