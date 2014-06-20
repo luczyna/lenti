@@ -2,69 +2,7 @@
 html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Tienne', serif; }
 *, *:after, *:before { -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
 
-.wrap {
-	padding: 1em;
-	margin: 0 auto;
-	max-width: 30em;
-	background: steelblue;
-	position: relative;
-}
+.clearfix:before,
+.clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
 
-.opener {
-	text-align: center;
-	color: white;
-}
-
-
-
-
-
-
-
-
-
-.game-wrap {}
-.game-header {}
-
-.game-header .score {
-	display: inline-block;
-	width: 49%;
-	color: #f1f1f1;
-}
-
-.game-header .shots {
-	display: inline-block;
-	width: 49%;
-	font-size: 2em;
-	color: #f1f1f1;
-	text-align: right;
-}
-
-.game-wrap .world {
-	padding: 1em 1em 2em;
-	/*background: palegreen;*/
-}
-
-
-
-
-.lenti {
-	width: 4em;
-	height: 4em;
-	background: tomato;
-	position: absolute;
-	bottom: 1em;
-	left: 1em;
-}
-
-.lenti-projectile {
-	width: 1em;
-	height: 1em;
-	background: palegreen;
-	position: absolute;
-	-o-transition: left 0.4s ease-in-out, bottom 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
-	-ms-transition: left 0.4s ease-in-out, bottom 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
-	-moz-transition: left 0.4s ease-in-out, bottom 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
-	-webkit-transition: left 0.4s ease-in-out, bottom 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
-	transition: left 0.4s ease-in-out, bottom 0.3s cubic-bezier(0.55, 0.055, 0.675, 0.19);
-}
