@@ -210,16 +210,11 @@ html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code P
 	width: 25%;
 	background: lime;
 	position: absolute;
-	-o-transition: left 0.2s ease-in-out;
-	-ms-transition: left 0.2s ease-in-out;
-	-moz-transition: left 0.2s ease-in-out;
-	-webkit-transition: left 0.2s ease-in-out;
-	transition: left 0.2s ease-in-out;
-	-o-transition: top 0.2s ease-in-out;
-	-ms-transition: top 0.2s ease-in-out;
-	-moz-transition: top 0.2s ease-in-out;
-	-webkit-transition: top 0.2s ease-in-out;
-	transition: top 0.2s ease-in-out;
+	-o-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	-ms-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	-moz-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	-webkit-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 }
 .game .messages {}
 

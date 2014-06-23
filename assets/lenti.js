@@ -7,16 +7,7 @@ var lhome_s = document.getElementById('homeScreen'),
     lgame_s = document.getElementById('gameScreen'),
     lmodal_s = document.getElementById('modalScreen');
 
-var lenti = document.getElementById('lenti'),
-    lenti_info = [
-        0,      //moves
-        2,      //x coordinate
-        2       //y coordinate
-    ],
-    //postiions
-    p = [],
-    //lentiAnimation storage
-    aniLenti;
+
 
 function init() {
     //is there a saved game?
@@ -174,109 +165,7 @@ function showAchievements() {
     lclan_s.style.right = '100%';
     lachieve_s.style.right = '0';
 }
-
-
-
-
-
-
-
-
-
-function playGame() {
-    console.log('almost, my pet');
-
-    //prepare the game screen
-    var i = gls('clan')
-    lenti[0] = 100;
-    document.getElementById('movesLeft').textContent = lenti[0];
-
-    //question modal?
-    document.getElementById('hasQuestion').addEventListener('click', showAboutGame, false);
-
-    //size the blocks
-    var block = lgame_s.querySelector('.blocks');
-    block.style.height = lgame_s.offsetWidth + 'px';
-    //dimension
-    var d = lgame_s.offsetWidth / 5;
-
-    //position lenti
-    p = [0, (d), (d*2), (d*3), (d*4)];
-    lenti.style.top = p[lenti_info[2]] + 'px';
-    lenti.style.left = p[lenti_info[1]] + 'px';
-    lenti.style.height = lenti.offsetWidth + 'px';
-    lenti.style.backgroundImage = 'url(' + lenti_clans[i].lenti + ')';
-    lenti.style.backgroundSize = (lenti.offsetWidth * 8) + 'px auto';
-    lenti.style.backgroundPositionX = 0;
-    lenti.style.backgroundPositionY = 0;
-    aniLenti = window.setInterval(animateLentiSprite, 200);
-
-
-    //show the game screen
-    lclan_s.style.right = '100%';
-    lgame_s.style.right = 0;
-
-    //start the messages
-
-}
-
-
-
-
-
 function showAboutGame() {
     console.log('I can\'t answer you yet');
 }
-
-
-
-
-
-
-
-
-
-function animateLentiSprite() {
-    //check what direction we should be in (0 || 1) : (right||left)
-    var dir = +lenti.getAttribute('data-direction');
-
-    //check what action we should be doing
-    //(0 || 1 || 2) : (standing || walking || jumping)
-    var act = +lenti.getAttribute('data-action');
-
-    //check what sprite we should be showing (out of 8)
-    var now = +lenti.getAttribute('data-sIndex');
-    var nxt = (now == 7) ? 0 : now + 1;
-
-    //change the sctuff! (0-7 means 1/7 = 14.28 iterations)
-    lenti.style.backgroundPositionX = (nxt * 14.28) + '%';
-    lenti.style.backgroundPositionY = whichSpriteRow(dir, act) + '%';
-    lenti.setAttribute('data-sIndex', nxt);
-}
-
-function whichSpriteRow(direction, action) {
-    var position;
-    if (direction === 0) {
-        if (action === 0) {
-            position = 0; 
-        } else if (action === 1) {
-            position = 40;
-        } else if (action === 2) {
-            position = 80;
-        }
-    } else if (direction === 1) {
-        if (action === 0) {
-            position = 20; 
-        } else if (action === 1) {
-            position = 60;
-        } else if (action === 2) {
-            position = 100;
-        }
-    }
-
-    return position;
-}
-
-
-
 
