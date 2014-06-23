@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+	<head>
+		<title>LentiBam</title>
+		<meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1">
+
+		<link href='http://fonts.googleapis.com/css?family=Source+Code+Pro:400,600' rel='stylesheet' type='text/css'>
+		<link href='assets/lenti.css' rel='stylesheet' type='text/css'>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="home" id="homeScreen">
+				<h1>Lentibam</h1>
+
+				<a class="button green" id="startPlaying">play</a>
+				<a class="button blue" id="chooseClan">choose your clan</a>
+
+				<hr>
+				<p>by tropvache and friends</p> 
+			</div>
+
+			<div class="setup" id="setupScreen">
+				<h2>choose a clan</h2>
+
+				<div class="clan-options clearfix">
+					<img src="" />
+					<img src="" />
+					<img src="" />
+				</div>
+
+				<p></p>
+
+				<a class="button green" data-clan="">pick this clan</a>
+			</div>
+
+			<div class="clan-overview" id="clanScreen">
+				<h2>Clan</h2>
+
+				<div class="stuff clearfix">
+					<img src="" />
+
+					<div class="options">
+						<a class="button green" id="playGame">play</a>
+						<a class="button blue" id="treasureList">treasures</a>
+						<a class="button blue" id="achievementList">achievements</a>
+					</div>
+				</div>
+
+				<ul class="messages" id="messages">
+					<li>Welcome to the day. Let's do what we can for the hoard</li>
+				</ul>
+			</div>
+
+			<div class="treasure-collection" id="treasureScreen">
+				<div class="sticky-top">
+					<a class="button blue backToClan">back to clan</a>
+				</div>
+
+				<h2>Nothing Here</h2>
+				<p>Your clan has no treasures to claim as their own. You should go fix that.</p>
+			</div>
+
+			<div class="achievement-list" id="achievementScreen">
+				<div class="sticky-top">
+					<a class="button blue backToClan">back to clan</a>
+				</div>
+
+				<ul class="ach-ls"></ul>
+			</div>
+
+			<div class="game" id="gameScreen">
+				<header>
+					<span class="label">moves left</span>
+					<span class="value" id="movesLeft"></span>
+
+					<span class="question" id="hasQuestion">?</span>
+				</header>
+
+				<div class="blocks">
+					<div class="lenti" id="lenti" data-direction="0" data-action="0" data-sIndex="0"></div>
+				</div>
+
+				<ul class="messages" id="game_messages">
+					
+				</ul>
+
+			</div>
+
+			<div class="modals" id="modalScreen"></div>
+		</div>
+
+		<script type="text/javascript" src="assets/script.js"></script>
+		<script type="text/javascript" src="assets/lenti.js"></script>
+		<script type="text/javascript" src="assets/helpers.js"></script>
+		<script type="text/javascript" src="assets/clans.js"></script>
+		<script type="text/javascript" src="assets/play.js"></script>
+	</body>
+</html>
