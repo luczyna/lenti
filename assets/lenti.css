@@ -203,19 +203,45 @@ html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code P
 	float: right;
 }
 .game .blocks {
-	background: tomato;
+	background: #f1f1f1;
 	position: relative;
 }
 .blocks .lenti {
-	width: 25%;
-	background: lime;
+	width: 20%;
+	/*background: lime;*/
 	position: absolute;
+	z-index: 900;
 	-o-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 	-ms-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 	-moz-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 	-webkit-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 	transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 }
+.blocks .b {
+	position: absolute;
+	z-index: 800;
+	width: 20%;
+	height: auto;
+	display: block;
+	margin: 0;
+	/*padding: 2%;*/
+	-o-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	-ms-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	-moz-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	-webkit-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+}
+.b[data-row='0'] { top: 0; }
+.b[data-row='1'] { top: 20%; }
+.b[data-row='2'] { top: 40%; }
+.b[data-row='3'] { top: 60%; }
+.b[data-row='4'] { top: 80%; }
+.b[data-col='0'] { left: 0; }
+.b[data-col='1'] { left: 20%; }
+.b[data-col='2'] { left: 40%; }
+.b[data-col='3'] { left: 60%; }
+.b[data-col='4'] { left: 80%; }
+
 .game .messages {}
 
 

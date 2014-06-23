@@ -9,7 +9,7 @@ var lenti = document.getElementById('lenti'),
     p = [],
     //lentiAnimation storage
     aniLenti;
-    //touch move poinrs
+    //touch move pointers
     t = [];
 
 
@@ -39,7 +39,8 @@ function playGame() {
     lenti.style.backgroundSize = (lenti.offsetWidth * 8) + 'px auto';
     lenti.style.backgroundPositionX = 0;
     lenti.style.backgroundPositionY = 0;
-    aniLenti = window.setInterval(animateLentiSprite, 200);
+
+    blockLoadingInit();
 
     //add the touch events
 	block.addEventListener("touchstart", handleStart, false);
@@ -52,6 +53,7 @@ function playGame() {
     //show the game screen
     lclan_s.style.right = '100%';
     lgame_s.style.right = 0;
+    aniLenti = window.setInterval(animateLentiSprite, 200);
 
     //start the messages
 
@@ -245,7 +247,7 @@ function handleTransitionBrowserWars() {
 	} else if('onwebkittransitionend' in window) {
 		// Chrome/Saf (+ Mobile Saf)/Android
 		transitionString = 'onwebkittransitionend';
-	} else if('onotransitionend' in myDiv || navigator.appName == 'Opera') {
+	} else if('onotransitionend' in window || navigator.appName == 'Opera') {
 		// Opera
 		// As of Opera 10.61, there is no "onotransitionend" property added to DOM elements,
 		// so it will always use the navigator.appName fallback
@@ -257,4 +259,25 @@ function handleTransitionBrowserWars() {
 
 	console.log(transitionString);
 	return transitionString;
+}
+
+//populate the block with background blocks
+function blockLoadingInit() {
+	//set up the block with annotations
+	var block = document.querySelector('.blocks');
+	block.setAttribute('data-rows', '0 4');
+	block.setAttribute('data-cols', '0 4');
+
+	//fill the block in with .bs that have certain bgs
+	var rows = 5, cols = 5;
+	for (var i = 0; i < rows; i++) {
+		for (var j = 0; j < cols; j++) {
+			var b = document.createElement('img');
+			b.src = 'assets/images/bg.png';
+			b.setAttribute('data-row', i);
+			b.setAttribute('data-col', j);
+			b.classList.add('b');
+			block.appendChild(b);
+		}
+	}
 }
