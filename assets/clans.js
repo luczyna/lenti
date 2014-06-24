@@ -5,7 +5,7 @@ var lenti_clans = [
 	'description': 'A spiritual clan, these people believe in rebirth and life as a cycle, never ending.',
 	'banner': 'assets/images/orobou.svg',
 	'lenti': 'assets/images/o-sprite.png',
-	'ability': [],
+	'ability': [1, 1, 20],
 	'messages': []
 },
 
@@ -15,7 +15,7 @@ var lenti_clans = [
 	'description': 'A down-to-earth clan, focused on the permeation of their own.',
 	'banner': 'assets/images/terratin.svg',
 	'lenti': 'assets/images/o-sprite.png',
-	'ability': [],
+	'ability': [1, 0.5, 10],
 	'messages': []
 },
 
@@ -25,7 +25,7 @@ var lenti_clans = [
 	'description': 'An energetic clan, they pride themselves on fast living, big moves, and bold statements.',
 	'banner': 'assets/images/vitaeli.svg',
 	'lenti': 'assets/images/o-sprite.png',
-	'ability': [],
+	'ability': [1.5, 1, 10],
 	'messages': []
 }
 ];
