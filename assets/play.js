@@ -357,6 +357,15 @@ function foundMoney() {
 }
 function foundMonster() {
 	console.log('a monster attacks you');
+	//what monster is it?
+
+	//how much damage do we take?
+
+	//animate the monster and the lenti
+
+	//write a message about it
+
+	//decreate any buffs applicable
 }
 function foundItem() {
 	console.log('you found an item');
