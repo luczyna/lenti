@@ -94,3 +94,32 @@ function handleEnd(evt) {
 }
 function handleCancel(evt) {}
 function handleMove(evt) {}
+
+//keyboard events
+document.onkeydown = function(e) {
+	//only if we are playing
+
+	if (lgame_s.style.right == '0px') {
+	    e = e || window.event;
+	    switch(e.which || e.keyCode) {
+	        case 37: // left
+	        moveLenti('left', 1);
+	        break;
+
+	        case 38: // up
+	        moveLenti('up', 1);
+	        break;
+
+	        case 39: // right
+	        moveLenti('right', 1);
+	        break;
+
+	        case 40: // down
+	        moveLenti('down', 1);
+	        break;
+
+	        default: return; // exit this handler for other keys
+	    }
+	    e.preventDefault(); // prevent the default action (scroll / move caret)
+	}
+}
