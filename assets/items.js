@@ -65,7 +65,8 @@ lenti_items = [
 		'action': ['money', 2, 3]
 	},
 	{
-		'name': 'Engelsflügel',
+		// 'name': 'Engelsflügel',
+		'name': "Engelsflugel",
 		'message': 'You are blessed with the protection of the divine, and the wunderbar scent of baby powder',
 		'action': ['protect', 1, 3]
 	},
@@ -98,7 +99,7 @@ var nothing_messages = [
 	"Nada.",
 	"I wonder what my mother would be thinking right now, as I find NOTHING.",
 	"Squat.",
-	"Here lies nothing",
+	"Here lies nothing.",
 	"I've found it! Nothing! Yay!",
 	"This is great, a pile of nothing.",
 	"The clan will have my hide, if I return with Nothing.",

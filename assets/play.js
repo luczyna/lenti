@@ -19,7 +19,7 @@ var lenti = document.getElementById('lenti'),
     moving = false,
     //what can happen
     //nothing || money || item || monster || treasure
-    whatCanHappen = [ [0, 0.4], [0.4, 0.65], [0.65, 0.75], [0.75, 0.95], [0.95, 1] ]
+    whatCanHappen = [ [0, 0.4], [0.4, 0.65], [0.65, 0.75], [0.75, 0.95], [0.95, 1] ];
 
 
 function playGame() {
@@ -38,6 +38,9 @@ function playGame() {
     //size the blocks
     var block = lgame_s.querySelector('.blocks');
     block.style.height = lgame_s.offsetWidth + 'px';
+    //size the messages
+    document.getElementById('game_messages').style.height = (window.innerHeight - lgame_s.children[0].offsetHeight - lgame_s.children[1].offsetHeight - 16) + 'px';
+
     //dimension
     var d = lgame_s.offsetWidth / 5;
 
@@ -257,26 +260,6 @@ function refreshBlock() {
 		}
 	}
 }
-//check on our buffs
-function updateBuffs() {
-    var i = gls('clan');
-
-    if (lenti_info[3][0][1]--  == 0) {
-    	//reset the money info to the default
-    	lenti_info[3][0][0] = lenti_clans[i].ability[0];
-    	lenti_info[3][0][1] = 0;
-    } else {
-    	lenti_info[3][0][1]--;
-    }
-
-	if (lenti_info[3][1][1]--  == 0) {
-    	//reset the protection info to the default
-    	lenti_info[3][1][0] = lenti_clans[i].ability[0];
-    	lenti_info[3][1][1] = 0;
-    } else {
-    	lenti_info[3][1][1]--;
-    }
-}
 
 function checkWhatHappens() {
 	//check where we are
@@ -296,6 +279,9 @@ function checkWhatHappens() {
 	switch (whatsFound) {
 		case 0:
 			console.log('nothing here');
+			var howMany = nothing_messages.length;
+			var which = Math.floor(Math.random() * howMany);
+			writeGameMessage('nothing', nothing_messages[which]);
 			break;
 		case 1:
 			foundMoney();
@@ -365,8 +351,9 @@ function foundMoney() {
 	var money = Math.floor(Math.random() * 10) + 1;
 
 	//does it get multiplied by a buff?
-	var moreMoney = lenti_info[3][0][0] * money;
-	console.log('you get ' + moreMoney + ' gold coins');
+	var moreMoney = Math.ceil(lenti_info[3][0][0] * money);
+	// console.log('you get ' + moreMoney + ' gold coins');
+	writeGameMessage('money', moreMoney);
 }
 function foundMonster() {
 	console.log('a monster attacks you');
@@ -383,10 +370,14 @@ function foundItem() {
 
 	//now what happens?
 	itemBuffs(item.action);
+	writeGameMessage('item', item);
 }
 function foundTreasure() {
 	console.log(' WOW !!  you found some treasure!');
 }
+
+
+
 
 function itemBuffs(itemInfo) {
 	var what = itemInfo[0];
@@ -407,6 +398,51 @@ function itemBuffs(itemInfo) {
 		lenti_info[0] += how;
 		lenti_info[3][2][0] += how;
 	}
+}
+function updateBuffs() {
+    var i = gls('clan');
+
+    if (lenti_info[3][0][1]--  == 0) {
+    	//reset the money info to the default
+    	lenti_info[3][0][0] = lenti_clans[i].ability[0];
+    	lenti_info[3][0][1] = 0;
+    } else {
+    	lenti_info[3][0][1]--;
+    }
+
+	if (lenti_info[3][1][1]--  == 0) {
+    	//reset the protection info to the default
+    	lenti_info[3][1][0] = lenti_clans[i].ability[0];
+    	lenti_info[3][1][1] = 0;
+    } else {
+    	// lenti_info[3][1][1]--;
+    }
+}
+function writeGameMessage(type, input) {
+	var ms = document.getElementById('game_messages');
+	var m = document.createElement('li');
+
+	switch (type) {
+		case 'item':
+			var str = 'You found a <strong>' + input.name + '</strong>. ' + input.message;
+			m.innerHTML = str;
+			break;
+		case 'money':
+			var str = '<strong>' + input + ' gold coins</strong>. Booyah.'
+			m.innerHTML = str;
+			break;
+		case 'nothing':
+			console.log(input);
+			m.textContent = input;
+			break;
+		default:
+			console.log('working on it');
+			break;
+	}
+
+	ms.appendChild(m);
+	//keep the message list as far to the bottom as possible
+	ms.scrollTop = ms.scrollHeight;
 }
 
 
@@ -430,6 +466,10 @@ function endGame() {
 	moving = false;
 	lenti_info[1] = 2;
 	lenti_info[2] = 2;
+
+	//empty things
+	var ms = document.getElementById('game_messages');
+	ms.innerHTML = '';
 
 	//show the end screen with data about this round
 
