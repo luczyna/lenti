@@ -242,7 +242,22 @@ html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code P
 .b[data-col='3'] { left: 60%; }
 .b[data-col='4'] { left: 80%; }
 
-.game .messages {}
+.game .messages {
+	background: #3B3D3D;
+	/*height: 5em;*/
+	padding: 2%;
+	margin: 0;
+	overflow-y: scroll;
+}
+.game .messages li {
+	padding: 0;
+	color: #F4FCFC;
+	margin: 0 0 1em;
+	line-height: 1.2;
+}
+.game .messages li strong {
+	color: white;
+}
 
 
 
