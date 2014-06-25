@@ -173,6 +173,9 @@ function moveLenti(direction, count) {
 				//now let's see what happens?
 				checkWhatHappens();
 				updateBuffs();
+				if(lenti_info[0] <= 0) {
+					endGame();
+				}
 				moving = false;
 			}
 		}, 600);
@@ -357,15 +360,49 @@ function foundMoney() {
 }
 function foundMonster() {
 	console.log('a monster attacks you');
-	//what monster is it?
 
-	//how much damage do we take?
+	//what monster is it?
+	var which = checkChances(lenti_monster_chance);
+	var monster = lenti_monsters[which];
+	console.log(monster.name);
+
+	//how much damage do we take? incorporate buffs...
+	console.log('life at: ' + lenti_info[0]);
+	var damage = monster.action[2];
+	console.log(damage);
+	var realDamage;
+	switch (monster.action[0]) {
+		case 'moves':
+			if (monster.action[1] == 'base') {
+				realDamage = Math.ceil(damage * lenti_info[3][1][0]);
+				lenti_info[0] -= realDamage;
+			} else if (monster.action[1] == 'multiplier') {
+				realDamage = damage * lenti_info[3][1][0];
+				lenti_info[0] *= realDamage;
+				lenti_info[0] = Math.floor(lenti_info[0]);
+			}
+			document.getElementById('movesLeft').textContent = lenti_info[0];
+			console.log(realDamage);
+
+			break;
+
+		default:
+		console.log('check your foundMonster');
+	}
 
 	//animate the monster and the lenti
 
 	//write a message about it
+	writeGameMessage('monster', monster);
 
-	//decreate any buffs applicable
+	//reduce any buffs applicable
+	if (!(lenti_info[3][1][0] === 0)) {
+		lenti_info[3][1][0]--;
+	}
+	
+	if (lenti_info[0] <= 0) {
+		endGame('you were killed in action');
+	}
 }
 function foundItem() {
 	console.log('you found an item');
@@ -397,10 +434,10 @@ function itemBuffs(itemInfo) {
 	if (what == 'money') {
 		//update your money buff
 		lenti_info[3][0][0] *= how;
-		lenti_info[3][0][1] += itemInfo[2];
+		lenti_info[3][0][1] = lenti_info[3][0][1] + itemInfo[2];
 	} else if (what == 'protect') {
 		//update your protection
-		lenti_info[3][1][0] *= how;
+		lenti_info[3][1][0] = how * lenti_info[3][1][0];
 		lenti_info[3][1][1] += itemInfo[2];
 	} else if (what == 'moves') {
 		//update your moves
@@ -419,10 +456,10 @@ function updateBuffs() {
     	lenti_info[3][0][1]--;
     }
 
-	if (lenti_info[3][1][1]--  == 0) {
+	if (lenti_info[3][1][1] == 0) {
     	//reset the protection info to the default
-    	lenti_info[3][1][0] = lenti_clans[i].ability[0];
-    	lenti_info[3][1][1] = 0;
+    	lenti_info[3][1][0] = lenti_clans[i].ability[1];
+    	// lenti_info[3][1][1] = 0;
     } else {
     	// lenti_info[3][1][1]--;
     }
@@ -441,8 +478,11 @@ function writeGameMessage(type, input) {
 			m.innerHTML = str;
 			break;
 		case 'nothing':
-			console.log(input);
 			m.textContent = input;
+			break;
+		case 'monster':
+			var str = 'A <strong>' + input.name + '</strong> attacks you. ' + input.message;
+			m.innerHTML = str;
 			break;
 		default:
 			console.log('working on it');
@@ -468,7 +508,7 @@ function writeGameMessage(type, input) {
 
 
 
-function endGame() {
+function endGame(message) {
 	console.log('the game should end now');
 	//make the lenti die
 	window.clearInterval(aniLenti);
@@ -481,16 +521,24 @@ function endGame() {
 	ms.innerHTML = '';
 
 	//show the end screen with data about this round
+	lmodal_s.style.right = 0;
 
 	//update our storage and localStorage
 
 	//transition to the next screen
-	lgame_s.style.right = '-100%';
-	lclan_s.style.right = 0;
+	document.getElementById('backToClan').addEventListener('click', goBackToClan, false);
 
 	//empty the blocks
 	var b = document.getElementsByClassName('b');
 	for (var i = 0; i < b.length; i++) {
 		b[i].parentNode.removeChild(b[i]);
 	}
+}
+function goBackToClan() {
+	//transition to the next screen
+	lmodal_s.style.right = '-100%';
+	lgame_s.style.right = '-100%';
+	lclan_s.style.right = 0;
+
+	document.getElementById('backToClan').removeEventListener('click', goBackToClan, false);
 }

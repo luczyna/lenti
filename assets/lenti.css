@@ -266,13 +266,34 @@ html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code P
 
 
 
+
+/* modal information */
+.modals {
+	right: -100%;
+	z-index: 990;
+	background: #c2c2c2;
+	top: 0;
+	bottom: 0;
+}
+.modal {
+	padding: 10%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* pick at these */
 .treasure-collection {
 	right: -100%;
 }
 .achievement-list {
-	right: -100%;
-}
-.modals {
 	right: -100%;
 }
