@@ -78,3 +78,33 @@ lenti_items = [
 
 //end the item list
 ];
+
+
+
+
+
+
+
+
+
+//additionally, include a list of messages
+//for when nothing happens in the game.
+//we don't want it to get boring here, do we?
+var nothing_messages = [
+	"Nothing here.",
+	"A whole lot of nothing.",
+	"Wonderful! Nothing...",
+	"Nope.",
+	"Nada.",
+	"I wonder what my mother would be thinking right now, as I find NOTHING.",
+	"Squat.",
+	"Here lies nothing",
+	"I've found it! Nothing! Yay!",
+	"This is great, a pile of nothing.",
+	"The clan will have my hide, if I return with Nothing.",
+	"Nil.",
+	"How many ways can you say NOTHING?",
+	"How dissapointing.",
+	"You can have it, I don't want this Nothing.",
+	"Nothing: an absence of thing."
+] 
