@@ -11,7 +11,8 @@ var lhome_s = document.getElementById('homeScreen'),
 
 function init() {
     //is there a saved game?
-    if (!(window.localStorage['lenti-game'] === '')) {
+    if ( (window.localStorage['lenti-game']) ) {
+        console.log('poop');
         var start = document.getElementById('startPlaying');
         start.style.display = 'block';
         start.addEventListener('click', continueGame, false);

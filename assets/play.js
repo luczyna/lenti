@@ -8,7 +8,8 @@ var lenti = document.getElementById('lenti'),
         	[1, 0], //money multiplier 
         	[1, 0], //damage reducer
         	[0]		//move count
-        ]
+        ],
+        [ 0, 0, 0 ] //lenti sprite info (dir, act, index)
     ],
     //postiions
     p = [],
@@ -27,6 +28,7 @@ function playGame() {
     var i = gls('clan');
     lenti_info[0] = lenti_clans[i].ability[2];
     document.getElementById('movesLeft').textContent = lenti_info[0];
+    document.getElementById('moneyCollected').textContent = 0;
 
     //prepare the rest of the buffs
     lenti_info[3][0][0] = lenti_clans[i].ability[0];
@@ -53,6 +55,7 @@ function playGame() {
     lenti.style.backgroundSize = (lenti.offsetWidth * 8) + 'px auto';
     lenti.style.backgroundPositionX = 0;
     lenti.style.backgroundPositionY = 0;
+    lenti_info[4] = [0, 0, 0];
 
     blockLoadingInit();
 
@@ -67,7 +70,7 @@ function playGame() {
     //show the game screen
     lclan_s.style.right = '100%';
     lgame_s.style.right = 0;
-    // aniLenti = window.setInterval(animateLentiSprite, 200);
+    aniLenti = window.setInterval(animateLentiSprite, 100);
 
     //start the messages
 
@@ -85,20 +88,20 @@ function playGame() {
 //animates the Lenti
 function animateLentiSprite() {
     //check what direction we should be in (0 || 1) : (right||left)
-    var dir = +lenti.getAttribute('data-direction');
+    var dir = lenti_info[4][0];
 
     //check what action we should be doing
     //(0 || 1 || 2) : (standing || walking || jumping)
-    var act = +lenti.getAttribute('data-action');
+    var act = lenti_info[4][1];
 
     //check what sprite we should be showing (out of 8)
-    var now = +lenti.getAttribute('data-sIndex');
+    var now = lenti_info[4][2];
     var nxt = (now == 7) ? 0 : now + 1;
 
     //change the sctuff! (0-7 means 1/7 = 14.28 iterations)
     lenti.style.backgroundPositionX = (nxt * 14.28) + '%';
     lenti.style.backgroundPositionY = whichSpriteRow(dir, act) + '%';
-    lenti.setAttribute('data-sIndex', nxt);
+    lenti_info[4][2] = nxt;
 }
 
 function whichSpriteRow(direction, action) {
@@ -146,11 +149,12 @@ function moveLenti(direction, count) {
 
 		//update the sprite position
 		if (direction == 'right') {
-			lenti.setAttribute('data-direction', 0);
+			lenti_info[4][0] = 0;
 		} else if (direction == 'left') {
-			lenti.setAttribute('data-direction', 1);
+			lenti_info[4][0] = 1;
 		}
-		lenti.setAttribute('data-action', 1);
+		//update the sprite action
+		lenti_info[4][1] = 1;
 
 		//when the move is over
 		window.setTimeout(function() {
@@ -167,7 +171,7 @@ function moveLenti(direction, count) {
 				lenti_info[2] = i[4];
 
 				//update the sprite position
-				lenti.setAttribute('data-action', 0);
+				lenti_info[4][1] = 0;
 
 				console.log('you\'ve done it');
 				//now let's see what happens?
@@ -221,6 +225,11 @@ function checkLentiMoveAbility(direction, count) {
 
 //populate the block with background blocks
 function blockLoadingInit() {
+	var land = [
+		'assets/images/l_grass.png',
+		'assets/images/l_rocks.png',
+		'assets/images/l_dirt.png',
+	];
 	//set up the block with annotations
 	var block = document.querySelector('.blocks');
 	block.setAttribute('data-rows', '0 4');
@@ -230,8 +239,9 @@ function blockLoadingInit() {
 	var rows = 5, cols = 5;
 	for (var i = 0; i < rows; i++) {
 		for (var j = 0; j < cols; j++) {
+			var rand = Math.floor(Math.random() * 3);
 			var b = document.createElement('img');
-			b.src = 'assets/images/bg.png';
+			b.src = land[rand];
 			b.setAttribute('data-row', i);
 			b.setAttribute('data-col', j);
 			b.classList.add('b');
@@ -356,6 +366,8 @@ function foundMoney() {
 	//does it get multiplied by a buff?
 	var moreMoney = Math.ceil(lenti_info[3][0][0] * money);
 	// console.log('you get ' + moreMoney + ' gold coins');
+	var current = +document.getElementById('moneyCollected').textContent;
+	document.getElementById('moneyCollected').textContent = current + moreMoney;
 	writeGameMessage('money', moreMoney);
 }
 function foundMonster() {
@@ -516,12 +528,14 @@ function endGame(message) {
 	lenti_info[1] = 2;
 	lenti_info[2] = 2;
 
-	//empty things
-	var ms = document.getElementById('game_messages');
-	ms.innerHTML = '';
 
 	//show the end screen with data about this round
 	lmodal_s.style.right = 0;
+
+	var e = document.getElementById('endOfGame');
+	//gold
+	var g = +document.getElementById('moneyCollected').textContent;
+	e.children[1].textContent = 'total gold found: ' + g;
 
 	//update our storage and localStorage
 
@@ -541,4 +555,7 @@ function goBackToClan() {
 	lclan_s.style.right = 0;
 
 	document.getElementById('backToClan').removeEventListener('click', goBackToClan, false);
+	//empty things
+	var ms = document.getElementById('game_messages');
+	ms.innerHTML = '';
 }

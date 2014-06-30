@@ -99,7 +99,7 @@ function handleMove(evt) {}
 document.onkeydown = function(e) {
 	//only if we are playing
 
-	if (lgame_s.style.right == '0px') {
+	if (lgame_s.style.right == '0px' && lmodal_s.style.right != '0px' && !moving) {
 	    e = e || window.event;
 	    switch(e.which || e.keyCode) {
 	        case 37: // left
