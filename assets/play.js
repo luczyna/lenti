@@ -404,66 +404,13 @@ function foundMonster() {
 		endGame('you were killed in action');
 	}
 }
-function foundItem() {
-	console.log('you found an item');
-
-	//what are we going to get?
-	var tier = checkChances(lenti_item_chance);
-	var which = Math.floor(Math.random() * 3);
-	var item = lenti_items[tier][which];
-
-	console.log('you found a \b ' + item.name);
-
-	//now what happens?
-	itemBuffs(item.action);
-	writeGameMessage('item', item);
-}
-function foundTreasure() {
-	console.log(' WOW !!  you found some treasure!');
-}
 
 
 
 
-function itemBuffs(itemInfo) {
-	var what = itemInfo[0];
-	var how = itemInfo[1];
-	// money and protection have a duration element
-	// var duration = itemInfo[2]
 
-	if (what == 'money') {
-		//update your money buff
-		lenti_info[3][0][0] *= how;
-		lenti_info[3][0][1] = lenti_info[3][0][1] + itemInfo[2];
-	} else if (what == 'protect') {
-		//update your protection
-		lenti_info[3][1][0] = how * lenti_info[3][1][0];
-		lenti_info[3][1][1] += itemInfo[2];
-	} else if (what == 'moves') {
-		//update your moves
-		lenti_info[0] += how;
-		lenti_info[3][2][0] += how;
-	}
-}
-function updateBuffs() {
-    var i = gls('clan');
 
-    if (lenti_info[3][0][1]--  == 0) {
-    	//reset the money info to the default
-    	lenti_info[3][0][0] = lenti_clans[i].ability[0];
-    	lenti_info[3][0][1] = 0;
-    } else {
-    	lenti_info[3][0][1]--;
-    }
 
-	if (lenti_info[3][1][1] == 0) {
-    	//reset the protection info to the default
-    	lenti_info[3][1][0] = lenti_clans[i].ability[1];
-    	// lenti_info[3][1][1] = 0;
-    } else {
-    	// lenti_info[3][1][1]--;
-    }
-}
 function writeGameMessage(type, input) {
 	var ms = document.getElementById('game_messages');
 	var m = document.createElement('li');

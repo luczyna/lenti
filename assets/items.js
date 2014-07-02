@@ -4,18 +4,18 @@ lenti_items = [
 [
 	{
 		'name': 'Wand of Sparks',
-		'message':'You can increase the money you find by 25% in you next 5 moves. Zap!',
-		'action': ['money', 1.25, 5]
+		'message':'You can increase the money you find for your next 5 moves. Zap!',
+		'action': ['money', 10, 5]
 	},
 	{
 		'name': 'Wooden Shield',
 		'message': 'This will protect you from the next 3 monster attacks, and then splinter into a pile of tinder afterwards.',
-		'action': ['protect', 0.75, 3]
+		'action': ['protect', 20, 3]
 	},
 	{
 		'name': 'Powdered Milk',
 		'message': 'Add a little water, and you feel a little more energetic after drinking it down. Meow.',
-		'action': ['moves', 10]
+		'action': ['moves', 5]
 	}
 ],
 
@@ -24,17 +24,17 @@ lenti_items = [
 	{
 		'name': 'Wand of Lightning',
 		'message':'You can blast your chances for some good money by 50% for your next 3 moves. Don\'t play with this at home, kids.',
-		'action': ['money', 1.5, 3]
+		'action': ['money', 30, 3]
 	},
 	{
 		'name': 'Cheese Shield',
 		'message': 'Rather than eating you, the next monster that attacks you will proably stop at the shield and eat that instead.',
-		'action': ['protect', 0.25, 1]
+		'action': ['protect', 50, 1]
 	},
 	{
 		'name': 'Fitzy Cane Juice',
 		'message': 'There is so much sugar in this drink, that you can\'t help but squirm and tick.',
-		'action': ['moves', 20]
+		'action': ['moves', 10]
 	}
 ],
 
@@ -43,17 +43,17 @@ lenti_items = [
 	{
 		'name': 'Banker\'s Wand',
 		'message': 'Knowledge on how to cheat the system coarses through your viens, and you know you can fluff your accounts and retirement funds easily.',
-		'action': ['money', 1.75, 2]
+		'action': ['money', 50, 2]
 	},
 	{
 		'name': 'Titanium Shield',
 		'message': 'Light as your knowledge on foriegn investment, this reflects monster attacks as well as it reflects your handsome face back at you.',
-		'action': ['protect', 0.5, 6]
+		'action': ['protect', 40, 6]
 	},
 	{
 		'name': 'Cranky Moves Beer, the King of Yeast',
 		'message': 'Try as you might to drink in moderation, this seems to want to go down your throat with a mind of its own. But you\'re super alert and strong now... Right?',
-		'action': ['moves', 30]
+		'action': ['moves', 15]
 	}
 ],
 
@@ -62,23 +62,81 @@ lenti_items = [
 	{
 		'name': 'Alchemic Wand',
 		'message': 'Now you can alter the very composition of your aquisition, and double it with no consequences whatsoever. Except for that dark mark on your soul, but WHO CARES!?',
-		'action': ['money', 2, 3]
+		'action': ['money', 75, 3]
 	},
 	{
 		// 'name': 'Engelsflügel',
 		'name': "Engelsflugel",
 		'message': 'You are blessed with the protection of the divine, and the wunderbar scent of baby powder',
-		'action': ['protect', 1, 3]
+		'action': ['protect', 100, 3]
 	},
 	{
 		'name': 'Golden Chalice Purple Drank',
 		'message': 'Wow, with the powerful probiotic and societal cultures at work here, you just can\'t and won\'t stop.',
-		'action': ['moves', 10]
+		'action': ['moves', 30]
 	}
 ]
 
 //end the item list
 ];
+
+function foundItem() {
+	console.log('you found an item');
+
+	//what are we going to get?
+	var tier = checkChances(lenti_item_chance);
+	var which = Math.floor(Math.random() * 3);
+	var item = lenti_items[tier][which];
+
+	console.log('you found a \b ' + item.name);
+
+	//now what happens?
+	itemBuffs(item.action);
+	writeGameMessage('item', item);
+}
+
+//PLEASE REVISIT THIS
+//BUFFS NEED TO BE ADDRESSED
+function itemBuffs(itemInfo) {
+	var what = itemInfo[0];
+	var how = itemInfo[1];
+	// money and protection have a duration element
+	// var duration = itemInfo[2]
+
+	if (what == 'money') {
+		//update your money buff
+		lenti_info[3][0][0] *= how;
+		lenti_info[3][0][1] = lenti_info[3][0][1] + itemInfo[2];
+	} else if (what == 'protect') {
+		//update your protection
+		lenti_info[3][1][0] = how * lenti_info[3][1][0];
+		lenti_info[3][1][1] += itemInfo[2];
+	} else if (what == 'moves') {
+		//update your moves
+		lenti_info[0] += how;
+		lenti_info[3][2][0] += how;
+	}
+}
+
+function updateBuffs() {
+    var i = gls('clan');
+
+    if (lenti_info[3][0][1]--  == 0) {
+    	//reset the money info to the default
+    	lenti_info[3][0][0] = lenti_clans[i].ability[0];
+    	lenti_info[3][0][1] = 0;
+    } else {
+    	lenti_info[3][0][1]--;
+    }
+
+	if (lenti_info[3][1][1] == 0) {
+    	//reset the protection info to the default
+    	lenti_info[3][1][0] = lenti_clans[i].ability[1];
+    	// lenti_info[3][1][1] = 0;
+    } else {
+    	// lenti_info[3][1][1]--;
+    }
+}
 
 
 
