@@ -101,13 +101,14 @@ html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code P
 	text-align: center;
 }
 .setup .clan-options {}
-.clan-options img {
+.clan-options .image {
 	float: left;
 	width: 33.33%;
 	height: auto;
 	display: block;
 	margin: 0;
 	padding: 2% 5%;
+	background-repeat: no-repeat;
 }
 .clan-options .active {
 	outline: 2px tomato solid;

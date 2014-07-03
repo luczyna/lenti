@@ -1,13 +1,35 @@
 //initial variable setup
-var lhome_s = document.getElementById('homeScreen'),
-    lsetup_s = document.getElementById('setupScreen'),
-    lclan_s = document.getElementById('clanScreen'),
-    ltreasure_s = document.getElementById('treasureScreen'),
-    lachieve_s = document.getElementById('achievementScreen'),
-    lgame_s = document.getElementById('gameScreen'),
-    lmodal_s = document.getElementById('modalScreen');
+var lenti = {
+    'screens': {
+        home: document.getElementById('homeScreen'),
+        setup: document.getElementById('setupScreen'),
+        clan: document.getElementById('clanScreen'),
+        treasure: document.getElementById('treasureScreen'),
+        achievements: document.getElementById('achievementScreen'),
+        game:  document.getElementById('gameScreen'),
+        modal: document.getElementById('modalScreen')
+    },
+    'stats': [0, 0, 0],
+    'clan': 0,
+    'rounds': 0,
+    'money': 0,
+    'lenti': document.getElementById('lenti')
+}
 
-
+//overview of local Storage
+//window.localStorage['lenti-_____']
+//game = 'yes' there is a game
+//start = new Date() when clan is chosen
+//stats = '0 0 0' stats of the lenti
+//rounds = 0 how many rounds have been played
+//clan = 0 which clan are you playing (0-2)
+//money = 0 the stores of money
+//treasures = '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0'
+//             what do we have? | how many do we have?
+//ach-money = '0 0 0 0'
+//ach-resilience = '0 0 0 0'
+//ach-moves = '0 0 0 0'
+//ach-rounds = '0 0 0 0'
 
 function init() {
     //is there a saved game?
@@ -37,12 +59,12 @@ init();
 
 function continueGame() {
     prepareGame();
-    lhome_s.style.right = '100%';
-    lclan_s.style.right = '0';
+    lenti.screens.home.style.right = '100%';
+    lenti.screens.clan.style.right = '0';
 }
 function chooseClan() {
     //is there an existing game?
-    if (!window.localStorage['lenti-game'] === ('')) {
+    if (window.localStorage['lenti-game'] !== '') {
         var make_sure = window.prompt('You already have a family. Are you sure you want to through away all your progress with your current clan? Type "YES" if you want to start ties with a new clan', 'YES');
         if (!make_sure === 'YES') {
             return;
@@ -51,20 +73,25 @@ function chooseClan() {
 
     //prepare the clan page
     for (var i = 0; i < lenti_clans.length; i++) {
-        var im = lsetup_s.children[1].children[i];
+        var im = lenti.screens.setup.children[1].children[i];
 
-        im.src = lenti_clans[i].banner;
+        // im.src = lenti_clans[i].lenti;
+        im.style.height = im.offsetWidth + 'px';
+        im.style.backgroundImage = 'url(' + lenti_clans[i].lenti + ')';
+        im.style.backgroundSize = (im.offsetWidth * 8) + 'px auto';
+        im.style.backgroundPositionX = 0;
+        im.style.backgroundPositionY = 0;
         im.addEventListener('click', showClanChoiceInfo, false);
     }
 
     //show the clan setup
-    lhome_s.style.right = '100%';
-    lsetup_s.style.right = '0';
+    lenti.screens.home.style.right = '100%';
+    lenti.screens.setup.style.right = '0';
 }
 function showClanChoiceInfo() {
     //which clan is active?
     var which;
-    var options = lsetup_s.children[1].children;
+    var options = lenti.screens.setup.children[1].children;
     for (var i = 0; i < options.length; i++) {
         if (this === options[i]) {
             which = i;
@@ -77,11 +104,11 @@ function showClanChoiceInfo() {
     options[which].classList.add('active');
 
     //show description and name of clan
-    lsetup_s.children[0].textContent = lenti_clans[which].name;
-    lsetup_s.children[2].textContent = lenti_clans[which].description;
+    lenti.screens.setup.children[0].textContent = lenti_clans[which].name;
+    lenti.screens.setup.children[2].textContent = lenti_clans[which].description;
 
     //allow person to choose this clan
-    var chooseMe = lsetup_s.children[3];
+    var chooseMe = lenti.screens.setup.children[3];
     if (chooseMe.getAttribute('data-clan') === '') {
         chooseMe.style.opacity = 1;
         chooseMe.setAttribute('data-clan', which)        
@@ -103,15 +130,21 @@ function makeClanChoice() {
     // window.localStorage['lenti-clan'] = clan;
     sls('game', lenti_clans[clan].name);
     sls('start', new Date());
+    var stats = lenti_clans[clan].ability[0] + ' ' + lenti_clans[clan].ability[1] + ' ' + lenti_clans[clan].ability[2];
+    sls('stats', stats);
+    sls('rounds', 0);
     sls('clan', clan);
-    sls('game-count', 0);
-    sls('treasures', '');
-    sls('achievements', '')
+    sls('money', 0);
+    sls('treasures', '0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0');
+    sls('ach-money', '0 0 0 0');
+    sls('ach-resilience', '0 0 0 0');
+    sls('ach-moves', '0 0 0 0');
+    sls('ach-rounds', '0 0 0 0');
 
     //show us to the clan overview page
     prepareGame();
-    lsetup_s.style.right = '100%';
-    lclan_s.style.right = 0;
+    lenti.screens.setup.style.right = '100%';
+    lenti.screens.clan.style.right = 0;
 }
 function prepareGame() {
     updateClanOverview();
@@ -120,7 +153,7 @@ function prepareGame() {
 }
 function updateClanOverview() {
     var i = gls('clan');
-    var elem = lclan_s.children;
+    var elem = lenti.screens.clan.children;
 
     //set the title
     elem[0].textContent = 'Clan ' + lenti_clans[i].name;
@@ -138,32 +171,32 @@ function updateClanOverview() {
 }
 function updateTreasures() {
     //get us out of here
-    ltreasure_s.querySelector('.backToClan').addEventListener('click', backToClan, false);
+    lenti.screens.treasure.querySelector('.backToClan').addEventListener('click', backToClan, false);
 }
 function updateAchievements() {
     //get us out of here
-    lachieve_s.querySelector('.backToClan').addEventListener('click', backToClan, false);
+    lenti.screens.achievements.querySelector('.backToClan').addEventListener('click', backToClan, false);
 }
 function backToClan() {
     //where are we returning from?
     var from = document.getElementById(this.parentNode.parentNode.id);
 
     from.style.right = '-100%';
-    lclan_s.style.right = 0;
+    lenti.screens.clan.style.right = 0;
 }
 function showTreasures() {
     console.log('almost, greedy pig');
     updateTreasures();
 
-    lclan_s.style.right = '100%';
-    ltreasure_s.style.right = '0';
+    lenti.screens.clan.style.right = '100%';
+    lenti.screens.treasure.style.right = '0';
 }
 function showAchievements() {
     console.log('almost, you spurring wildhorse');
     updateAchievements();
 
-    lclan_s.style.right = '100%';
-    lachieve_s.style.right = '0';
+    lenti.screens.clan.style.right = '100%';
+    lenti.screens.achievements.style.right = '0';
 }
 function showAboutGame() {
     console.log('I can\'t answer you yet');

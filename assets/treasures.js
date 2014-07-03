@@ -123,8 +123,17 @@ function checkInitTreasures() {
 	var tTotal = ls.split(' ');
 	var t = tTotal.slice(0, 9)
 	var tc = tTotal.slice(9);
-	lenti_aquired.treasure = t;
-	lenti_aquired.treasure_count = tc;
+
+	//these are still strings
+	for (var i = 0; i < lenti_aquired.treasure.length; i++) {
+		lenti_aquired.treasure[i] = +t[i];
+	}
+	// lenti_aquired.treasure = t;
+
+	for (var i = 0; i < lenti_aquired.treasure_count.length; i++) {
+		lenti_aquired.treasure_count[i] = +tc[i];
+	}
+	// lenti_aquired.treasure_count = tc;
 }
 
 function getTreasure() {

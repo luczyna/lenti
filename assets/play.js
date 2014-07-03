@@ -1,25 +1,40 @@
 //play game functions
-var lenti = document.getElementById('lenti'),
-    lenti_info = [
-        0,      //moves
-        2,      //x coordinate
-        2,      //y coordinate
-        [		//buffs
-        	[1, 0], //money multiplier 
-        	[1, 0], //damage reducer
-        	[0]		//move count
-        ]
-    ],
-    //postiions
-    p = [],
-    //animation setInterval storage
-    aniLenti,
-    //touch move pointers
-    t = [],
-    moving = false,
-    //what can happen
-    //nothing || money || item || monster || treasure
-    whatCanHappen = [ [0, 0.4], [0.4, 0.65], [0.65, 0.75], [0.75, 0.95], [0.95, 1] ];
+var lentiGame = {
+	'start': 0,
+	'stop': 0,
+	'moves': 0,
+	'money': 0,
+	'monsters': 0,
+	'position': 10,
+	'buffs': [ [0, 0], [0, 0], [0] ],
+	'animate': [],
+	'lenti': [0, 0, 0],
+	'touch': [],
+	'moving': false,
+	//nothing || money || item || monster || treasure
+	'chances': [ [0, 0.4], [0.4, 0.65], [0.65, 0.75], [0.75, 0.95], [0.95, 1] ]
+};
+// var lenti = document.getElementById('lenti'),
+//     lenti_info = [
+//         0,      //moves
+//         2,      //x coordinate
+//         2,      //y coordinate
+//         [		//buffs
+//         	[1, 0], //money multiplier 
+//         	[1, 0], //damage reducer
+//         	[0]		//move count
+//         ]
+//     ],
+//     //postiions
+//     p = [],
+//     //animation setInterval storage
+//     aniLenti,
+//     //touch move pointers
+//     t = [],
+//     moving = false,
+//     //what can happen
+//     //nothing || money || item || monster || treasure
+//     whatCanHappen = [ [0, 0.4], [0.4, 0.65], [0.65, 0.75], [0.75, 0.95], [0.95, 1] ];
 
 
 function playGame() {
@@ -36,13 +51,13 @@ function playGame() {
     document.getElementById('hasQuestion').addEventListener('click', showAboutGame, false);
 
     //size the blocks
-    var block = lgame_s.querySelector('.blocks');
-    block.style.height = lgame_s.offsetWidth + 'px';
+    var block = lenti.screens.game.querySelector('.blocks');
+    block.style.height = lenti.screens.game.offsetWidth + 'px';
     //size the messages
-    document.getElementById('game_messages').style.height = (window.innerHeight - lgame_s.children[0].offsetHeight - lgame_s.children[1].offsetHeight - 16) + 'px';
+    document.getElementById('game_messages').style.height = (window.innerHeight - lenti.screens.game.children[0].offsetHeight - lenti.screens.game.children[1].offsetHeight - 16) + 'px';
 
     //dimension
-    var d = lgame_s.offsetWidth / 5;
+    var d = lenti.screens.game.offsetWidth / 5;
 
     //position lenti
     p = [0, (d), (d*2), (d*3), (d*4)];
@@ -65,8 +80,8 @@ function playGame() {
 
 
     //show the game screen
-    lclan_s.style.right = '100%';
-    lgame_s.style.right = 0;
+    lenti.screens.clan.style.right = '100%';
+    lenti.screens.game.style.right = 0;
     // aniLenti = window.setInterval(animateLentiSprite, 200);
 
     //start the messages
@@ -85,20 +100,25 @@ function playGame() {
 //animates the Lenti
 function animateLentiSprite() {
     //check what direction we should be in (0 || 1) : (right||left)
-    var dir = +lenti.getAttribute('data-direction');
+    // var dir = +lenti.getAttribute('data-direction');
+    var dir = lentiGame.lenti[0];
+
 
     //check what action we should be doing
     //(0 || 1 || 2) : (standing || walking || jumping)
-    var act = +lenti.getAttribute('data-action');
+    // var act = +lenti.getAttribute('data-action');
+    var act = lentiGame.lenti[1];
 
     //check what sprite we should be showing (out of 8)
-    var now = +lenti.getAttribute('data-sIndex');
+    // var now = +lenti.getAttribute('data-sIndex');
+    var now = lentiGame.lenti[2];
     var nxt = (now == 7) ? 0 : now + 1;
 
     //change the sctuff! (0-7 means 1/7 = 14.28 iterations)
-    lenti.style.backgroundPositionX = (nxt * 14.28) + '%';
-    lenti.style.backgroundPositionY = whichSpriteRow(dir, act) + '%';
-    lenti.setAttribute('data-sIndex', nxt);
+    lenti.lenti.style.backgroundPositionX = (nxt * 14.28) + '%';
+    lenti.lenti.style.backgroundPositionY = whichSpriteRow(dir, act) + '%';
+    // this.setAttribute('data-sIndex', nxt);
+    lentiGame.lenti[2] = nxt;
 }
 
 function whichSpriteRow(direction, action) {
@@ -468,7 +488,7 @@ function endGame(message) {
 	ms.innerHTML = '';
 
 	//show the end screen with data about this round
-	lmodal_s.style.right = 0;
+	lenti.screens.modal.style.right = 0;
 
 	//update our storage and localStorage
 
@@ -483,9 +503,9 @@ function endGame(message) {
 }
 function goBackToClan() {
 	//transition to the next screen
-	lmodal_s.style.right = '-100%';
-	lgame_s.style.right = '-100%';
-	lclan_s.style.right = 0;
+	lenti.screens.modal.style.right = '-100%';
+	lenti.screens.game.style.right = '-100%';
+	lenti.screens.clan.style.right = 0;
 
 	document.getElementById('backToClan').removeEventListener('click', goBackToClan, false);
 }
