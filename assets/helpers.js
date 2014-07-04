@@ -24,6 +24,41 @@ function sls(what, value) {
 	window.localStorage[setThis] = value;
 }
 
+function transitionScreen(from, to) {
+	lenti.screens[to].style.display = 'block';
+	lenti.screens[to].style.opacity = 1;
+    lenti.screens[to].style.right = 0;
+	
+	lenti.screens[to].addEventListener('transitionend', function() {
+		console.log('start the poop show');
+		lenti.screens[from].style.right = '100%';
+		lenti.screens[from].style.opacity = 0;
+
+	    lenti.screens[from].addEventListener('transitionend', function() {
+	    	console.log('it is finished');
+	    	
+	    	lenti.screens[from].style.display = 'none';
+			lenti.screens[from].style.opacity = 1;
+	    	return true;
+	    }, false);
+	}, false);
+}
+function ts(from, to) {
+	lenti.screens[from].style.opacity = 0;
+    lenti.screens[to].style.display = 'block';
+    //yeah, we shouldn't be doing this with setTimeout, but WHATEVER
+	window.setTimeout(finishTS, 300, [from, to]);
+}
+function finishTS(arr) {
+	var from = arr[0];
+	var to = arr[1];
+
+	console.log('poop is here')
+	lenti.screens[from].style.display = 'none';
+    lenti.screens[to].style.opacity = 1;
+    console.log('why poop why?');
+}
+
 function handleTransitionBrowserWars() {
 	var transitionString;
 

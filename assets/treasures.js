@@ -59,7 +59,7 @@ lenti_treasures = [
 	'name': 'Mother\'s Love',
 	'message': 'While others may laugh, they will never understand the warmth and strength of a woman.',
 	'action': ['protect', 5],
-	'picture': 'assets/images/treasures/checks.png'
+	'picture': 'assets/images/treasures/lovemom.png'
 }
 ];
 
@@ -99,6 +99,8 @@ lenti_aquired = {
 	treasure_count: [0, 0, 0, 0, 0, 0, 0, 0, 0],
 	achievements: [ [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0] ]
 }
+
+var endGameTreasures = [];
 
 
 
@@ -164,7 +166,7 @@ function updateTreasures() {
 	//what treasures do we have?
 	//how many of what do we have?
 	//annotate that in our treasure list
-	var elem = lenti.screens.treasure.children[1].children;
+	var elem = lenti.screens.treasure.children[2].children;
 
 	for (var i = 0; i < elem.length; i++) {
 		if (lenti_aquired.treasure[i]) {
@@ -188,6 +190,13 @@ function updateTreasures() {
     lenti.screens.treasure.querySelector('.backToClan').addEventListener('click', backToClan, false);
 }
 
+function showTreasures() {
+    console.log('almost, greedy pig');
+    updateTreasures();
+
+    lenti.screens.clan.style.right = '100%';
+    lenti.screens.treasure.style.right = '0';
+}
 
 
 
@@ -260,16 +269,29 @@ function checkForAchievement() {
 
 
 function updateAchievements() {
+	//what achievements do we have?
+	var list = lenti.screens.achievements.getElementsByClassName('ach');
+	//check the achievement groupings
+	for (var i = 0; i < list.length; i++) {
+		//now check the individual achievements
+		var ach = list[i].children;
+		for (var j = 0; j < ach.length; j++) {
+			//was it achieved and does it need updating?
+			if (lenti_aquired.achievements[i][j] === 1 && ach[j].classList.contains('notyet')) {
+					//update the name'
+					ach[j].children[0].textContent = lenti_achievements[i][j][0];
+					ach[j].classList.remove('notyet');
+
+			} else {
+				//this needs to be run at least once
+				//to show how many you need to get achievement
+				ach[j].children[1].textContent = lenti_achievements[i][j][1];
+			}
+		}
+	}
+
     //get us out of here
     lenti.screens.achievements.querySelector('.backToClan').addEventListener('click', backToClan, false);
-}
-
-function showTreasures() {
-    console.log('almost, greedy pig');
-    updateTreasures();
-
-    lenti.screens.clan.style.right = '100%';
-    lenti.screens.treasure.style.right = '0';
 }
 
 function showAchievements() {

@@ -33,7 +33,7 @@ var lenti = {
 
 function init() {
     //is there a saved game?
-    if (!(window.localStorage['lenti-game'] === '')) {
+    if ( window.localStorage['lenti-game'] !== ('' || 'undefined') ) {
         var start = document.getElementById('startPlaying');
         start.style.display = 'block';
         start.addEventListener('click', continueGame, false);
@@ -44,6 +44,7 @@ function init() {
 
     //give the container height
     document.querySelector('.container').style.height = window.innerHeight + 'px';
+    document.querySelector('.container').style.width = window.innerWidth + 'px';
 }
 
 //run our init
@@ -59,14 +60,25 @@ init();
 
 function continueGame() {
     prepareGame();
-    lenti.screens.home.style.right = '100%';
-    lenti.screens.clan.style.right = '0';
+    // lenti.screens.home.style.right = '100%';
+    // lenti.screens.clan.style.right = '0';
+    // transitionScreen('home', 'clan');
+    ts('home', 'clan');
 }
+
+
+
+
+
+
+
+
+
 function chooseClan() {
     //is there an existing game?
     if (window.localStorage['lenti-game'] !== '') {
-        var make_sure = window.prompt('You already have a family. Are you sure you want to through away all your progress with your current clan? Type "YES" if you want to start ties with a new clan', 'YES');
-        if (!make_sure === 'YES') {
+        var make_sure = window.confirm('You already have a family. Are you sure you want to through away all your progress with your current clan?');
+        if (!make_sure) {
             return;
         }
     }
@@ -80,8 +92,10 @@ function chooseClan() {
     }
 
     //show the clan setup
-    lenti.screens.home.style.right = '100%';
-    lenti.screens.setup.style.right = '0';
+    // lenti.screens.home.style.right = '100%';
+    // lenti.screens.setup.style.right = '0';
+    // transitionScreen('home', 'setup');
+    ts('home', 'setup');
 }
 function showClanChoiceInfo() {
     //which clan is active?
@@ -135,8 +149,10 @@ function makeClanChoice() {
 
     //show us to the clan overview page
     prepareGame();
-    lenti.screens.setup.style.right = '100%';
-    lenti.screens.clan.style.right = 0;
+    // lenti.screens.setup.style.right = '100%';
+    // lenti.screens.clan.style.right = 0;
+    // transitionScreen('setup', 'clan');
+    ts('setup', 'clan');
 }
 
 
@@ -218,8 +234,11 @@ function backToClan() {
     //where are we returning from?
     var from = document.getElementById(this.parentNode.parentNode.id);
 
-    from.style.right = '-100%';
-    lenti.screens.clan.style.right = 0;
+    if (from == 'treasureScreen') {
+        ts('treasure', 'clan');
+    } else if (from == 'achievementScreen') {
+        ts('achievements', 'clan');
+    }
 }
 
 function showAboutGame() {
