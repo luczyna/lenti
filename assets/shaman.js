@@ -15,6 +15,8 @@ var lenti_shaman = [
 //end of shaman info
 ];
 
+function visitShaman() {}
+
 function shamanSalesman() {}
 
 function buyShamanBuff() {}

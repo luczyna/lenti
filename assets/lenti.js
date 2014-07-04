@@ -75,12 +75,7 @@ function chooseClan() {
     for (var i = 0; i < lenti_clans.length; i++) {
         var im = lenti.screens.setup.children[1].children[i];
 
-        // im.src = lenti_clans[i].lenti;
-        im.style.height = im.offsetWidth + 'px';
-        im.style.backgroundImage = 'url(' + lenti_clans[i].lenti + ')';
-        im.style.backgroundSize = (im.offsetWidth * 8) + 'px auto';
-        im.style.backgroundPositionX = 0;
-        im.style.backgroundPositionY = 0;
+        im.src = lenti_clans[i].banner;
         im.addEventListener('click', showClanChoiceInfo, false);
     }
 
@@ -125,9 +120,6 @@ function makeClanChoice() {
     var clan = +this.getAttribute('data-clan');
 
     //set this up in the localStorage
-    // window.localStorage['lenti-game'] = lenti_clans[clan].name;
-    // window.localStorage['lenti-start'] = new Date();
-    // window.localStorage['lenti-clan'] = clan;
     sls('game', lenti_clans[clan].name);
     sls('start', new Date());
     var stats = lenti_clans[clan].ability[0] + ' ' + lenti_clans[clan].ability[1] + ' ' + lenti_clans[clan].ability[2];
@@ -146,13 +138,24 @@ function makeClanChoice() {
     lenti.screens.setup.style.right = '100%';
     lenti.screens.clan.style.right = 0;
 }
+
+
+
+
+
+
+
+
+
 function prepareGame() {
+    updateGlobalVariables();
     updateClanOverview();
     updateTreasures();
     updateAchievements();
 }
+
 function updateClanOverview() {
-    var i = gls('clan');
+    var i = lenti.clan;
     var elem = lenti.screens.clan.children;
 
     //set the title
@@ -165,18 +168,52 @@ function updateClanOverview() {
     document.getElementById('playGame').addEventListener('click', playGame, false);
     document.getElementById('treasureList').addEventListener('click', showTreasures, false);
     document.getElementById('achievementList').addEventListener('click', showAchievements, false);
+    document.getElementById('seeShaman').addEventListener('click', visitShaman, false);
 
     //start our scrolling message board
     //m = window.setInterval(messageBoard, 2000);
 }
-function updateTreasures() {
-    //get us out of here
-    lenti.screens.treasure.querySelector('.backToClan').addEventListener('click', backToClan, false);
+
+
+
+
+
+
+
+
+function updateGlobalVariables() {
+    lenti.clan = Number(gls('clan'));
+    lenti.rounds = Number(gls('rounds'));
+    lenti.money = Number(gls('money'));
+
+    var s = gls('stats');
+    var st = s.split(' ');
+    for (var i = 0; i < st.length; i++) {
+        lenti.stats[i] = +st[i];
+    }
+
+    var t = gls('treasures');
+    var tr = t.split(' ');
+    var ta = tr.slice(0, 9);
+    var tc = t.slice(9);
+    for (var j = 0; j < ta.length; j++) {
+        lenti_aquired.treasure[j] = +ta[j];
+        lenti_aquired.treasure_count[j] = +tc[j];
+    }
+
+    var amon = (gls('ach-money')).split(' '),
+        ares = (gls('ach-resilience')).split(' '),
+        amov = (gls('ach-moves')).split(' '),
+        arnd = (gls('ach-rounds')).split(' ');
+    for (var k = 0; k < amon.length; k++) {
+        lenti_aquired.achievements[0][k] = +amon[k];
+        lenti_aquired.achievements[1][k] = +ares[k];
+        lenti_aquired.achievements[2][k] = +amov[k];
+        lenti_aquired.achievements[3][k] = +arnd[k];
+    }
 }
-function updateAchievements() {
-    //get us out of here
-    lenti.screens.achievements.querySelector('.backToClan').addEventListener('click', backToClan, false);
-}
+
+
 function backToClan() {
     //where are we returning from?
     var from = document.getElementById(this.parentNode.parentNode.id);
@@ -184,20 +221,7 @@ function backToClan() {
     from.style.right = '-100%';
     lenti.screens.clan.style.right = 0;
 }
-function showTreasures() {
-    console.log('almost, greedy pig');
-    updateTreasures();
 
-    lenti.screens.clan.style.right = '100%';
-    lenti.screens.treasure.style.right = '0';
-}
-function showAchievements() {
-    console.log('almost, you spurring wildhorse');
-    updateAchievements();
-
-    lenti.screens.clan.style.right = '100%';
-    lenti.screens.achievements.style.right = '0';
-}
 function showAboutGame() {
     console.log('I can\'t answer you yet');
 }

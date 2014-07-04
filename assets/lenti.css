@@ -101,14 +101,13 @@ html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code P
 	text-align: center;
 }
 .setup .clan-options {}
-.clan-options .image {
+.clan-options img {
 	float: left;
 	width: 33.33%;
 	height: auto;
 	display: block;
 	margin: 0;
 	padding: 2% 5%;
-	background-repeat: no-repeat;
 }
 .clan-options .active {
 	outline: 2px tomato solid;
@@ -288,13 +287,71 @@ html, body { font-size: 100%; margin: 0; padding: 0; font-family: 'Source Code P
 
 
 
+/* treasure lists */
+.treasure-collection {
+	right: -100%;
+}
+.treasure-collection .t-list {
+	margin: 1em auto 0;
+}
+.t-list .t-item {
+	border-bottom: 1px #cacaca solid;
+	padding: 0 0 1em;
+	margin: 0 auto 1em;
+	position: relative;
+}
+.t-item:last-child {
+	border-bottom: 0;
+}
+.t-item img {
+	width: 33.33%;
+	height: auto;
+	float: left;
+}
+.t-item img[src*="unknown"] {
+	float: none;
+	margin: 0 auto;
+	display: block;
+}
+.t-item .t-info {
+	width: 66.66%;
+	float: left;
+	padding: 0 0 0 1em;
+}
+.t-item .unknown {
+	display: none;
+}
+.t-item .count {
+	background: tomato;
+	padding: 0.5em;
+	border-radius: 0.5em;
+	color: white;
+	position: absolute;
+	left: 0;
+	bottom: 5%;
+}
+
+/* treasure and achievement menu bar */
+.sticky-top {
+	/*top: 0;*/
+	/*right: 0;*/
+	width: 100%;
+	padding: 0.5em;
+	/*position: fixed;*/
+	background: #f1f1f1;
+	z-index: 999;
+}
+
+
+
+
+
+
+
 
 
 
 /* pick at these */
-.treasure-collection {
-	right: -100%;
-}
 .achievement-list {
 	right: -100%;
 }

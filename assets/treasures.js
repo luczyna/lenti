@@ -95,9 +95,9 @@ lenti_achievements = [
 ];
 
 lenti_aquired = {
-	treasure = [0, 0, 0, 0, 0, 0, 0, 0, 0],
-	treasure_count = [0, 0, 0, 0, 0, 0, 0, 0, 0],
-	achievements = [ [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0] ];
+	treasure: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+	treasure_count: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+	achievements: [ [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0] ]
 }
 
 
@@ -160,6 +160,33 @@ function updateTreasureLocalStorage() {
 	console.log('treasure localStorage updated');
 }
 
+function updateTreasures() {
+	//what treasures do we have?
+	//how many of what do we have?
+	//annotate that in our treasure list
+	var elem = lenti.screens.treasure.children[1].children;
+
+	for (var i = 0; i < elem.length; i++) {
+		if (lenti_aquired.treasure[i]) {
+			//image
+			elem[i].children[0].src = lenti_treasures[i].picture;
+
+			//info
+			elem[i].children[1].children[0].textContent = lenti_treasures[i].name;
+			elem[i].children[1].children[1].textContent = lenti_treasures[i].message;
+			
+			//count
+			elem[i].children[2].textContent = lenti_aquired.treasure_count[i];
+
+			//show the info
+			elem[i].children[1].classList.remove('unknown')
+			elem[i].children[2].classList.remove('unknown')
+		}
+	}
+
+    //get us out of here
+    lenti.screens.treasure.querySelector('.backToClan').addEventListener('click', backToClan, false);
+}
 
 
 
@@ -224,4 +251,31 @@ function checkForAchievement() {
 
 	//end it all
 	return achieved;
+}
+
+
+
+
+
+
+
+function updateAchievements() {
+    //get us out of here
+    lenti.screens.achievements.querySelector('.backToClan').addEventListener('click', backToClan, false);
+}
+
+function showTreasures() {
+    console.log('almost, greedy pig');
+    updateTreasures();
+
+    lenti.screens.clan.style.right = '100%';
+    lenti.screens.treasure.style.right = '0';
+}
+
+function showAchievements() {
+    console.log('almost, you spurring wildhorse');
+    updateAchievements();
+
+    lenti.screens.clan.style.right = '100%';
+    lenti.screens.achievements.style.right = '0';
 }
