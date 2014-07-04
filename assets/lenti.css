@@ -203,39 +203,30 @@ body { overflow-x: hidden; }
 .game {
 	/*right: -100%;*/
 }
-.game header {
-	background: #cacaca;
-	padding: 0.5em;
-	margin: 0 auto 1em;
-}
-.game header .label {
-	width: 15%;
-}
-.game header .value {
-	font-size: 1.5em;
-}
-.game header .question {
-	float: right;
-}
-.game .blocks {
+.game .view {
 	background: #f1f1f1;
 	position: relative;
+	width: 100%;
+	background: palegreen;
+	padding: 1em 0 0;
 }
-.blocks .lenti {
+.view .lenti {
 	width: 20%;
 	/*background: lime;*/
 	position: absolute;
 	z-index: 900;
-	-o-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	-ms-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	-moz-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	-webkit-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
+	-o-transition: left 0.5s ease-out;
+	-ms-transition: left 0.5s ease-out;
+	-moz-transition: left 0.5s ease-out;
+	-webkit-transition: left 0.5s ease-out;
+	transition: left 0.5s ease-out;
+	left: -20%;
+	top: 60%;
 }
-.blocks .b {
+.view .lane {
 	position: absolute;
 	z-index: 800;
-	width: 20%;
+	/*width: 20%;*/
 	height: auto;
 	/*display: block;*/
 	/*margin: 0;*/
@@ -246,16 +237,27 @@ body { overflow-x: hidden; }
 	-webkit-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 	transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 }
-.b[data-row='0'] { top: 0; }
-.b[data-row='1'] { top: 20%; }
-.b[data-row='2'] { top: 40%; }
-.b[data-row='3'] { top: 60%; }
-.b[data-row='4'] { top: 80%; }
-.b[data-col='0'] { left: 0; }
-.b[data-col='1'] { left: 20%; }
-.b[data-col='2'] { left: 40%; }
-.b[data-col='3'] { left: 60%; }
-.b[data-col='4'] { left: 80%; }
+.view .timer-wrap {
+	position: relative;
+	height: 2em;
+	background: #cacaca;
+	padding: 0.25em;
+	width: 80%;
+	margin: 0 auto;
+}
+.timer-wrap .timer {
+	position: absolute;
+	background: tomato;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 20%;
+	-o-transition: right 0.1s ease-in-out;
+	-ms-transition: right 0.1s ease-in-out;
+	-moz-transition: right 0.1s ease-in-out;
+	-webkit-transition: right 0.1s ease-in-out;
+	transition: right 0.1s ease-in-out;
+}
 
 .game .messages {
 	background: #3B3D3D;
