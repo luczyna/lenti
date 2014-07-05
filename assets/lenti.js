@@ -232,7 +232,7 @@ function updateGlobalVariables() {
 
 function backToClan() {
     //where are we returning from?
-    var from = document.getElementById(this.parentNode.parentNode.id);
+    var from = this.parentNode.parentNode.id;
 
     if (from == 'treasureScreen') {
         ts('treasure', 'clan');

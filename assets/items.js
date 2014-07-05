@@ -88,11 +88,11 @@ function foundItem() {
 	var which = Math.floor(Math.random() * 3);
 	var item = lenti_items[tier][which];
 
-	console.log('you found a \b ' + item.name);
+	console.log('you found a \b' + item.name);
 
 	//now what happens?
-	itemBuffs(item.action);
-	writeGameMessage('item', item);
+	// itemBuffs(item.action);
+	writePopup('item', item);
 }
 
 //PLEASE REVISIT THIS

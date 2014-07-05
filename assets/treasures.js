@@ -138,7 +138,7 @@ function checkInitTreasures() {
 	// lenti_aquired.treasure_count = tc;
 }
 
-function getTreasure() {
+function foundTreasure() {
 	//which one?
 	var i = Math.floor(Math.random() * 9);
 
@@ -155,6 +155,8 @@ function getTreasure() {
 
 	//for the end of the game, you'll get the stat improvements
 	endGameTreasures.push(i);
+
+	writePopup('treasure', null);
 }
 
 function updateTreasureLocalStorage() {
@@ -186,16 +188,19 @@ function updateTreasures() {
 		}
 	}
 
-    //get us out of here
-    lenti.screens.treasure.querySelector('.backToClan').addEventListener('click', backToClan, false);
 }
 
 function showTreasures() {
     console.log('almost, greedy pig');
     updateTreasures();
 
-    lenti.screens.clan.style.right = '100%';
-    lenti.screens.treasure.style.right = '0';
+    // lenti.screens.clan.style.right = '100%';
+    // lenti.screens.treasure.style.right = '0';
+    ts('clan', 'treasure');
+    
+    
+    //get us out of here
+    lenti.screens.treasure.querySelector('.backToClan').addEventListener('click', backToClan, false);
 }
 
 
@@ -298,6 +303,7 @@ function showAchievements() {
     console.log('almost, you spurring wildhorse');
     updateAchievements();
 
-    lenti.screens.clan.style.right = '100%';
-    lenti.screens.achievements.style.right = '0';
+    // lenti.screens.clan.style.right = '100%';
+    // lenti.screens.achievements.style.right = '0';
+    ts('clan', 'achievements');
 }

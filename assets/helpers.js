@@ -24,25 +24,6 @@ function sls(what, value) {
 	window.localStorage[setThis] = value;
 }
 
-// function transitionScreen(from, to) {
-// 	lenti.screens[to].style.display = 'block';
-// 	lenti.screens[to].style.opacity = 1;
-//     lenti.screens[to].style.right = 0;
-	
-// 	lenti.screens[to].addEventListener('transitionend', function() {
-// 		console.log('start the poop show');
-// 		lenti.screens[from].style.right = '100%';
-// 		lenti.screens[from].style.opacity = 0;
-
-// 	    lenti.screens[from].addEventListener('transitionend', function() {
-// 	    	console.log('it is finished');
-	    	
-// 	    	lenti.screens[from].style.display = 'none';
-// 			lenti.screens[from].style.opacity = 1;
-// 	    	return true;
-// 	    }, false);
-// 	}, false);
-// }
 function ts(from, to) {
 	lenti.screens[from].style.opacity = 0;
     lenti.screens[to].style.display = 'block';
@@ -59,30 +40,6 @@ function finishTS(arr) {
     // console.log('why poop why?');
 }
 
-function handleTransitionBrowserWars() {
-	var transitionString;
-
-	if('ontransitionend' in window) {
-		// Firefox
-		transitionString = 'transitionend';
-	} else if('onwebkittransitionend' in window) {
-		// Chrome/Saf (+ Mobile Saf)/Android
-		transitionString = 'onwebkittransitionend';
-	} else if('onotransitionend' in window || navigator.appName == 'Opera') {
-		// Opera
-		// As of Opera 10.61, there is no "onotransitionend" property added to DOM elements,
-		// so it will always use the navigator.appName fallback
-		transitionString = 'oTransitionEnd';
-	} else {
-		// IE - not implemented (even in IE9) :(
-		transitionString = false;
-	}
-
-	console.log(transitionString);
-	return transitionString;
-}
-
-
 
 
 
@@ -90,38 +47,52 @@ function handleTransitionBrowserWars() {
 // touch functions
 function handleStart(evt) {
 	evt.preventDefault();
-	t[0] = evt.touches[0].clientX;
-	t[1] = evt.touches[0].clientY;
+
+	//pause the lenti and the lane from moving, pause the timer
+	// window.clearInterval(lentiGame.animate[0]);
+	lentiGame.lenti[1] = 0; 
+	window.clearInterval(lentiGame.animate[1]);
+	window.clearInterval(lentiGame.animate[2]);
+	lentiGame.moving = false;
+
+	//log where we touched
+	lentiGame.touch[0] = evt.touches[0].clientX;
+	lentiGame.touch[1] = evt.touches[0].clientY;
 
 	// console.log('touch start coordinates: ' + t[0] + ' ' + t[1]);
+	console.log('pausing to see this spot');
 }
 function handleEnd(evt) {
 	evt.preventDefault();
-	// console.log(evt);
-	// var tx = evt.touches[1].clientX;
-	// var ty = evt.touches[1].clientY;
-	var tx = evt.changedTouches[0].screenX;
-	var ty = evt.changedTouches[0].screenY;
+
+	//log where we stopped touching
+	lentiGame.touch[2] = evt.changedTouches[0].screenX;
+	lentiGame.touch[3] = evt.changedTouches[0].screenY;
 	// console.log('touch end coordinates: ' + tx + ' ' + ty);
 
+	if (!lentiGame.moving) {
+		if (lentiGame.touch[3] - lentiGame.touch[1] > 100) {
+			//we favor action
+			//swiping down means to check the item
+			checkWhatHappens();
+			console.log('checking what we find in this area');
+		} else {
+			//now we check swipe direction
+			if (lentiGame.touch[2] - lentiGame.touch[0] > 100) {
+				//we swiped to the right
+				//we change directions to the right
+				lentiGame.lenti[0] = 0;
+			} else if (lentiGame.touch[0] - lentiGame.touch[2] > 100) {
+				//we swiped to the left
+				lentiGame.lenti[0] = 1;
+			}
 
-	if (!moving) {
-		if (tx > t[0] && (tx - t[0] > 100)) {
-			//we can move right
-			// console.log('moving right');
-			moveLenti('right', 1);
-		} else if (tx < t[0] && (t[0] - tx > 100)) {
-			//we can move to the left
-			// console.log('moving left');
-			moveLenti('left', 1);
-		} else if (ty > t[1] && (ty - t[1] > 100)) {
-			//we can move down
-			// console.log('moving down');
-			moveLenti('down', 1);
-		} else if (ty < t[1] && (t[1] - ty > 100)) {
-			//we can move up
-			// console.log('moving up');
-			moveLenti('up', 1);
+			//regardless of directions changing or not, we start moving again
+			lentiGame.lenti[1] = 1;
+			// lentiGame.animate[0] = window.setInterval(animateLentiSprite, 200);
+			lentiGame.animate[1] = window.setInterval(timeCountdown, 1000);
+			lentiGame.animate[2] = window.setInterval(animateLane, 500);
+
 		}
 	} else {
 		console.log('slow youself down');
@@ -170,5 +141,13 @@ function checkChances(input) {
 			//this it the value that should be returned
 			return i;
 		}
+	}
+}
+
+
+function removeElem(parent, elem) {
+	for (var i = 0; i < elem.length; i++) {
+		
+		parent.removeChild(elem);
 	}
 }
