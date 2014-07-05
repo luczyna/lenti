@@ -3,6 +3,7 @@ var lentiGame = {
 	'start': 0,
 	'stop': 0,
 	'moves': 0,
+	'time': 0,
 	'money': 0,
 	'monsters': 0,
 	'position': 10,
@@ -46,10 +47,16 @@ function playGame() {
     //prepare the game screen
     prepareGameScreen();
 
+    //update our Game variables
+    lentiGame.moves = 15 + Math.floor(lenti.stats[2] / 5);
+    lentiGame.time = 15 + Math.floor(lenti.stats[2] / 5);
+
 
     // roll the lenti into place
-    window.setInterval(function() {
+    window.setTimeout(function() {
     	lenti.lenti.style.left = '20%';
+
+    	window.setTimeout(showGameStarter, 1000);
     }, 800);
 
     //once the lenti is in place, give the player a countdown to start playing
@@ -112,9 +119,10 @@ function prepareGameScreen() {
 	//put in a background, and start animating it
 	var b = Math.floor(Math.random() * 2);
 	// var bg = (b == 1) ? 'assets/images/bg-1.png' : 'assets/images/bg-2.png'; 
+	// lentiGame.animate[1] = window.setInterval(animateBg, 2000);
 
     //prepare the lane, and fill in the blocks
-    // loadLane();
+    loadLane();
 
     //how much time do we have?
 
@@ -194,21 +202,87 @@ function whichSpriteRow(direction, action) {
 //populate the block with background blocks
 function loadLane() {
 	var lane = lenti.screens.game.querySelector('.lane');
+	var w = window.innerWidth;
+	lane.style.width = (w * 20) + 'px';
+	lane.style.left = -(lentiGame.position * (w / 5)) + 'px';
 
 	for (var i = 0; i < 100; i++) {
 		var k = Math.floor(Math.random() * 2);
 		var im = document.createElement('img');
 		if (k) {
 			//add an image that will have stuff here
-			im.src = 'assets/images/tallgrass.png';
+			im.src = 'assets/images/tall-grass.png';
 		} else {
 			im.src = 'assets/images/grass.png';
 		}
+		im.style.width = w / 5 + 'px';
 		lane.appendChild(im);
 		lentiGame.blocks[i] = k;
 	}
 }
 
+function showGameStarter() {
+	//show a popup that will start the game
+	var popup = document.createElement('div');
+	popup.classList.add('info');
+	popup.innerHTML = '<p>Collect as much as you can for the hoard! <br>start collecting</p>';
+
+	lenti.screens.game.querySelector('.view').appendChild(popup);
+
+	window.setTimeout(function() {
+		popup.style.opacity = 1;
+	}, 200);
+
+	//make it clickable
+	popup.addEventListener('click', startGame, false);
+}
+
+function startGame() {
+	//remove the popup
+	var p = lenti.screens.game.querySelector('.info');
+	p.style.opacity = 0;
+
+	window.setTimeout(function() {
+		lenti.screens.game.querySelector('.view').removeChild(p);
+
+		//start the timer countdown
+		lentiGame.animate[1] = window.setInterval(timeCountdown, 1000);
+
+		//start the animating of the lane and background
+		lentiGame.animate[2] = window.setInterval(animateLane, 500);
+
+		//add event listeners
+
+	}, 500);
+}
+
+function timeCountdown() {
+	//how much time do we have total?
+	var t = lentiGame.moves;
+
+	//how much time do we have left?
+	var l = lentiGame.time;
+
+	//change the style of the timer to reflect this
+	document.getElementById('timer').style.right = (100 - (100 * (l / t))) + '%';
+	lentiGame.time--;
+}
+
+function animateLane() {
+	//where should the lane be sitting?
+	var w = window.innerWidth;
+	var lane = lenti.screens.game.querySelector('.lane');
+	lane.style.left = -(lentiGame.position * (w / 5)) + 'px';
+
+	//update our position
+	if (lentiGame.lenti[0] === 0) {
+		//we're facing right, and going right
+		lentiGame.position++;
+	} else {
+		//we're facing left
+		lentiGame.position--;
+	}
+}
 
 function checkWhatHappens() {
 	//check where we are

@@ -225,17 +225,19 @@ body { overflow-x: hidden; }
 }
 .view .lane {
 	position: absolute;
+	overflow: hidden;
 	z-index: 800;
-	/*width: 20%;*/
+	top: 60%;
+	/*height: auto;*/
+	-o-transition: left 0.5s linear;
+	-ms-transition: left 0.5s linear;
+	-moz-transition: left 0.5s linear;
+	-webkit-transition: left 0.5s linear;
+	transition: left 0.5s linear;
+}
+.lane img {
+	padding: 0 0.125em 0;
 	height: auto;
-	/*display: block;*/
-	/*margin: 0;*/
-	/*padding: 2%;*/
-	-o-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	-ms-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	-moz-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	-webkit-transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
-	transition: left 0.5s ease-in-out, top 0.5s ease-in-out;
 }
 .view .timer-wrap {
 	position: relative;
@@ -251,12 +253,29 @@ body { overflow-x: hidden; }
 	top: 0;
 	bottom: 0;
 	left: 0;
-	right: 20%;
-	-o-transition: right 0.1s ease-in-out;
-	-ms-transition: right 0.1s ease-in-out;
-	-moz-transition: right 0.1s ease-in-out;
-	-webkit-transition: right 0.1s ease-in-out;
-	transition: right 0.1s ease-in-out;
+	right: 0%;
+	-o-transition: right 1s linear;
+	-ms-transition: right 1s linear;
+	-moz-transition: right 1s linear;
+	-webkit-transition: right 1s linear;
+	transition: right 1s linear;
+}
+
+.view .info {
+	position: absolute;
+	opacity: 0;
+	z-index: 990;
+	background: white;
+	padding: 20%;
+	top: 4em;
+	bottom: 6em;
+	left: 1em;
+	right: 1em;
+	-o-transition: opacity 0.5s ease-in-out;
+	-ms-transition: opacity 0.5s ease-in-out;
+	-moz-transition: opacity 0.5s ease-in-out;
+	-webkit-transition: opacity 0.5s ease-in-out;
+	transition: opacity 0.5s ease-in-out;
 }
 
 .game .messages {
