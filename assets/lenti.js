@@ -44,7 +44,7 @@ function init() {
 
     //give the container height
     document.querySelector('.container').style.height = window.innerHeight + 'px';
-    document.querySelector('.container').style.width = window.innerWidth + 'px';
+    // document.querySelector('.container').style.width = window.innerWidth + 'px';
 }
 
 //run our init

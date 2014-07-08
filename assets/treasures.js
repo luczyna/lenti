@@ -146,8 +146,8 @@ function foundTreasure() {
 	console.log(lenti_treasures[i].name);
 
 	//animate the lenti to the excited max
-	//lentiGame.lentiPosition[2] = 0;
-	//lentiGame.lentiPosition[1] = 2;
+	lentiGame.lenti[2] = 0;
+	lentiGame.lenti[1] = 2;
 
 	//update our info
 	lenti_aquired.treasure[i] = 1;
@@ -234,7 +234,7 @@ function assignInitAchievements() {
 }
 
 function checkForAchievement() {
-	var acheived = [];
+	var achieved = [];
 	var check = [lentiGame.money, lentiGame.monsters, lentiGame.moves, lenti.rounds]
 	
 	//check achievements

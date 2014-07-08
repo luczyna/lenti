@@ -244,8 +244,8 @@ body { overflow-x: hidden; }
 	height: 2em;
 	background: #cacaca;
 	padding: 0.25em;
-	width: 80%;
-	margin: 0 auto;
+	width: 70%;
+	margin: 0 0 0 3%;
 }
 .timer-wrap .timer {
 	position: absolute;
@@ -254,11 +254,21 @@ body { overflow-x: hidden; }
 	bottom: 0;
 	left: 0;
 	right: 0%;
-	-o-transition: right 1s linear;
-	-ms-transition: right 1s linear;
-	-moz-transition: right 1s linear;
-	-webkit-transition: right 1s linear;
-	transition: right 1s linear;
+	-o-transition: right 0.2s linear;
+	-ms-transition: right 0.2s linear;
+	-moz-transition: right 0.2s linear;
+	-webkit-transition: right 0.2s linear;
+	transition: right 0.2s linear;
+}
+
+.view .money {
+	position: absolute;
+	top: 1em;
+	right: 3%;
+	margin: 0;
+	padding: 0.5em;
+	line-height: 1;
+	background: white;
 }
 
 .view .info {

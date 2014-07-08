@@ -45,43 +45,39 @@ function foundMonster() {
 	var monster = lenti_monsters[which];
 	// console.log(monster.name);
 
+
+	//how much damage do we take? incorporate buffs...
+	var damages = monster.action;
+	for (var i = 0; i < damages.length; i++) {
+		var kind = damages[i][0];
+		var reduction = damages[i][1];
+		var value = damages[i][2];
+
+		if (kind == 'moves') {
+			var statReduction = 1 - (Math.floor((lenti.stats[1] + lentiGame.buffs[1][0]) / 10) * 0.1);
+			if (reduction == 'base') {
+				lentiGame.time -= Math.ceil(value * statReduction);
+			} else if (reduction == 'multiplier') {
+				lentiGame.time *= (value * statReduction);
+			}
+
+			//how much time do we have total?
+			var t = lentiGame.moves;
+			//how much time do we have left?
+			var l = lentiGame.time;
+
+			//change the style of the timer to reflect this
+			document.getElementById('timer').style.right = (100 - (100 * (l / t))) + '%';
+		} else if (kind == 'money') {
+			lentiGame.money = Math.floor(lentiGame.money * value);
+			lenti.screens.game.querySelector('.money').textContent = lentiGame.money;
+		}
+	}
+
+	lentiGame.monsters++;
+
 	writePopup('monster', monster);
+	updateProtectionBuff();
 
-	// //how much damage do we take? incorporate buffs...
-	// console.log('life at: ' + lenti_info[0]);
-	// var damage = monster.action[2];
-	// console.log(damage);
-	// var realDamage;
-	// switch (monster.action[0]) {
-	// 	case 'moves':
-	// 		if (monster.action[1] == 'base') {
-	// 			realDamage = Math.ceil(damage * lenti_info[3][1][0]);
-	// 			lenti_info[0] -= realDamage;
-	// 		} else if (monster.action[1] == 'multiplier') {
-	// 			realDamage = damage * lenti_info[3][1][0];
-	// 			lenti_info[0] *= realDamage;
-	// 			lenti_info[0] = Math.floor(lenti_info[0]);
-	// 		}
-	// 		document.getElementById('movesLeft').textContent = lenti_info[0];
-	// 		console.log(realDamage);
-
-	// 		break;
-
-	// 	default:
-	// 	console.log('check your foundMonster');
-	// }
-
-	// //animate the monster and the lenti
-
-	// //write a message about it
-	// writeGameMessage('monster', monster);
-
-	// //reduce any buffs applicable
-	// if (!(lenti_info[3][1][0] === 0)) {
-	// 	lenti_info[3][1][0]--;
-	// }
-	
-	// if (lenti_info[0] <= 0) {
-	// 	endGame('you were killed in action');
-	// }
+	console.log('the monster attach should be done now');
 }

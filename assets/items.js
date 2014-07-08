@@ -91,12 +91,10 @@ function foundItem() {
 	console.log('you found a \b' + item.name);
 
 	//now what happens?
-	// itemBuffs(item.action);
+	itemBuffs(item.action);
 	writePopup('item', item);
 }
 
-//PLEASE REVISIT THIS
-//BUFFS NEED TO BE ADDRESSED
 function itemBuffs(itemInfo) {
 	var what = itemInfo[0];
 	var how = itemInfo[1];
@@ -105,37 +103,44 @@ function itemBuffs(itemInfo) {
 
 	if (what == 'money') {
 		//update your money buff
-		lenti_info[3][0][0] *= how;
-		lenti_info[3][0][1] = lenti_info[3][0][1] + itemInfo[2];
+		lentiGame.buffs[0][0] += how;
+		lentiGame.buffs[0][1] += itemInfo[2];
 	} else if (what == 'protect') {
 		//update your protection
-		lenti_info[3][1][0] = how * lenti_info[3][1][0];
-		lenti_info[3][1][1] += itemInfo[2];
+		lentiGame.buffs[1][0] += how;
+		lentiGame.buffs[1][1] += itemInfo[2];
 	} else if (what == 'moves') {
 		//update your moves
+		lentiGame.buffs += how;
+
+		if (lentiGame.time + how > lentiGame.moves) {
+			lentiGame.moves = lenti.time + how;
+		}
+		lentiGame.time += how;
+
 		lenti_info[0] += how;
 		lenti_info[3][2][0] += how;
 	}
 }
 
-function updateBuffs() {
-    var i = gls('clan');
+function updateMoneyBuff() {
+	//if the duration of the buff reaches 0,
+	//then the buff is over, and is reduced to 0, as well
+	if (lentiGame.buffs[0][1] == 0) {
+		lentiGame.buffs[0][0] = 0;
+	} else {
+		lentiGame.buffs[0][1]--;
+	}
+}
 
-    if (lenti_info[3][0][1]--  == 0) {
-    	//reset the money info to the default
-    	lenti_info[3][0][0] = lenti_clans[i].ability[0];
-    	lenti_info[3][0][1] = 0;
-    } else {
-    	lenti_info[3][0][1]--;
-    }
-
-	if (lenti_info[3][1][1] == 0) {
-    	//reset the protection info to the default
-    	lenti_info[3][1][0] = lenti_clans[i].ability[1];
-    	// lenti_info[3][1][1] = 0;
-    } else {
-    	// lenti_info[3][1][1]--;
-    }
+function updateProtectionBuff() {
+	//if the duration of the buff reaches 0,
+	//then the buff is over, and is reduced to 0, as well
+	if (lentiGame.buffs[1][1] == 0) {
+		lentiGame.buffs[1][0] = 0;
+	} else {
+		lentiGame.buffs[1][1]--;
+	}
 }
 
 

@@ -46,6 +46,7 @@ function finishTS(arr) {
 
 // touch functions
 function handleStart(evt) {
+	// console.log('i\'m touching you');
 	evt.preventDefault();
 
 	//pause the lenti and the lane from moving, pause the timer
@@ -75,7 +76,7 @@ function handleEnd(evt) {
 			//we favor action
 			//swiping down means to check the item
 			checkWhatHappens();
-			console.log('checking what we find in this area');
+			// console.log('checking what we find in this area');
 		} else {
 			//now we check swipe direction
 			if (lentiGame.touch[2] - lentiGame.touch[0] > 100) {
@@ -148,6 +149,6 @@ function checkChances(input) {
 function removeElem(parent, elem) {
 	for (var i = 0; i < elem.length; i++) {
 		
-		parent.removeChild(elem);
+		parent.removeChild(elem[i]);
 	}
 }

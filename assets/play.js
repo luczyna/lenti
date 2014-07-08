@@ -29,6 +29,10 @@ function playGame() {
     //update our Game variables
     lentiGame.moves = 15 + Math.floor(lenti.stats[2] / 5);
     lentiGame.time = 15 + Math.floor(lenti.stats[2] / 5);
+    lentiGame.monsters = 0;
+    lentiGame.money = 0;
+    lentiGame.position = 10;
+    lentiGame.buffs = [ [0, 0], [0, 0], [0] ];
 
 
     // roll the lenti into place
@@ -50,7 +54,11 @@ function prepareGameScreen() {
 	// lentiGame.animate[1] = window.setInterval(animateBg, 2000);
 
     //prepare the lane, and fill in the blocks
+    lentiGame.blocks.length = 0;
     loadLane();
+
+    //prepare our money
+    lenti.screens.game.querySelector('.money').textContent = lentiGame.money;
 
     //prepare lenti
     var l = lenti.lenti;
@@ -120,26 +128,11 @@ function startGame() {
 
 		//add event listeners
 		lentiGame.moving = true;
-		view.addEventListener("touchstart", handleStart, false);
-		view.addEventListener("touchend", handleEnd, false);
-		view.addEventListener("touchcancel", handleCancel, false);
-		view.addEventListener("touchleave", handleEnd, false);
-		view.addEventListener("touchmove", handleMove, false);
+		addTouch(view);
 
 	}, 500);
 }
 
-function timeCountdown() {
-	//how much time do we have total?
-	var t = lentiGame.moves;
-
-	//how much time do we have left?
-	var l = lentiGame.time;
-
-	//change the style of the timer to reflect this
-	document.getElementById('timer').style.right = (100 - (100 * (l / t))) + '%';
-	lentiGame.time--;
-}
 
 
 
@@ -163,24 +156,36 @@ function checkWhatHappens() {
 			case 0:
 				var i = Math.floor(Math.random() * nothing_messages.length);
 				writeMemo(nothing_messages[i]);
+				
+				//we potentially used an item for money multipling, 
+				//which gets used every turn, regardless of finding money or not
+				updateMoneyBuff();
+				
 				resume();
 				break;
 			case 1:
 				foundMoney();
+				updateMoneyBuff();
+				
 				break;
 			case 2:
 				foundItem();
 				break;
 			case 3:
 				foundMonster();
+				updateMoneyBuff();
+				
 				break;
 			case 4:
 				foundTreasure();
+				updateMoneyBuff();
+				
 				break;
 			default:
 				console.log('found nothing, but check your checkchances');
 				break;
 		}
+
 
 		//update the block info and image
 		lentiGame.blocks[p] = 0;
@@ -201,6 +206,22 @@ function resume() {
 	lentiGame.lenti[1] = 1;
 	lentiGame.animate[1] = window.setInterval(timeCountdown, 1000);
 	lentiGame.animate[2] = window.setInterval(animateLane, 500);
+}
+
+function removeTouch(what) {
+	what.removeEventListener("touchstart", handleStart, false);
+	what.removeEventListener("touchend", handleEnd, false);
+	what.removeEventListener("touchcancel", handleCancel, false);
+	what.removeEventListener("touchleave", handleEnd, false);
+	what.removeEventListener("touchmove", handleMove, false);
+}
+
+function addTouch(what) {
+	what.addEventListener("touchstart", handleStart, false);
+	what.addEventListener("touchend", handleEnd, false);
+	what.addEventListener("touchcancel", handleCancel, false);
+	what.addEventListener("touchleave", handleEnd, false);
+	what.addEventListener("touchmove", handleMove, false);
 }
 
 
@@ -230,6 +251,10 @@ function foundMoney() {
 	var moreMoney = Math.ceil(money * ( 1 + (Math.floor(a / 10) * 0.2)));
 	lentiGame.money += moreMoney;
 	lenti.screens.game.querySelector('.money').textContent = lentiGame.money;
+
+	// updateMoneyBuff();
+
+	writeMemo('you found some gold');
 	
 	//let us resume
 	window.setTimeout(function() {
@@ -297,6 +322,10 @@ function writePopup(what, arr) {
 	var popup = document.createElement('div');
 	popup.classList.add('info');
 
+	//remove the touch events for the view
+	var view = lenti.screens.game.querySelector('.view');
+	removeTouch(view);
+
 	if (what === 'item') {
 		popup.innerHTML = '<span>You found</span><h2>' + arr.name + '</h2><p>' + arr.message + '</p>';
 	} else if (what === 'monster') {
@@ -320,13 +349,24 @@ function removePopup() {
 	var p = this;
 	p.style.opacity = 0;
 
-	window.setTimeout(function() {
-		var p = lenti.screens.game.getElementsByClassName('.info');
-		lenti.screens.game.querySelector('.view').removeChild(p);
-		console.log('has it been removed?');
+	if (lentiGame.time <= 0) {
+		endGame('poop');
+	} else {
+		window.setTimeout(function() {
+			var p = lenti.screens.game.getElementsByClassName('info');
+			var v = lenti.screens.game.querySelector('.view');
+			removeElem(v, p);
+			console.log('has it been removed?');
 
-		resume();
-	}, 500);
+			//add back the touch events
+			var view = lenti.screens.game.querySelector('.view');
+			addTouch(view);
+
+			resume();
+			lentiGame.moving = true;
+		}, 500);
+	}
+
 }
 
 
@@ -393,6 +433,25 @@ function animateLane() {
 	}
 }
 
+function timeCountdown() {
+	//how much time do we have total?
+	var t = lentiGame.moves;
+
+	//how much time do we have left?
+	var l = lentiGame.time;
+
+	//change the style of the timer to reflect this
+	document.getElementById('timer').style.right = (100 - (100 * (l / t))) + '%';
+
+	if (lentiGame.time <= 0) {
+		endGame('no more time');
+	} else {
+		lentiGame.time--;
+	}
+
+	//
+}
+
 function animateBg() {}
 
 
@@ -411,29 +470,42 @@ function animateBg() {}
 
 function endGame(message) {
 	console.log('the game should end now');
-	//make the lenti die
-	window.clearInterval(aniLenti);
+	lenti.rounds++;
+
+	//stop the moving
+	window.clearInterval(lentiGame.animate[1]);
+	window.clearInterval(lentiGame.animate[2]);
+	lentiGame.lenti[1] = 0;
 	moving = false;
-	lenti_info[1] = 2;
-	lenti_info[2] = 2;
+
+	//check for things
+	var achieved = checkForAchievement();
+	console.log('achievements achieved: ' + achieved.length);
+	console.log('treasures gotten: ' + endGameTreasures.length);
+
+	if (message) {
+		console.log(message);
+	} else {
+		console.log('a normal ending');
+	}
 
 	//empty things
-	var ms = document.getElementById('game_messages');
-	ms.innerHTML = '';
+	// var ms = document.getElementById('game_messages');
+	// ms.innerHTML = '';
 
 	//show the end screen with data about this round
-	lenti.screens.modal.style.right = 0;
+	// lenti.screens.modal.style.right = 0;
 
 	//update our storage and localStorage
 
 	//transition to the next screen
-	document.getElementById('backToClan').addEventListener('click', goBackToClan, false);
+	// document.getElementById('backToClan').addEventListener('click', goBackToClan, false);
 
 	//empty the blocks
-	var b = document.getElementsByClassName('b');
-	for (var i = 0; i < b.length; i++) {
-		b[i].parentNode.removeChild(b[i]);
-	}
+	// var b = document.getElementsByClassName('b');
+	// for (var i = 0; i < b.length; i++) {
+	// 	b[i].parentNode.removeChild(b[i]);
+	// }
 }
 function goBackToClan() {
 	//transition to the next screen
