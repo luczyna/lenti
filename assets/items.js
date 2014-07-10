@@ -111,15 +111,17 @@ function itemBuffs(itemInfo) {
 		lentiGame.buffs[1][1] += itemInfo[2];
 	} else if (what == 'moves') {
 		//update your moves
-		lentiGame.buffs += how;
+		lentiGame.buffs[2] += how;
 
 		if (lentiGame.time + how > lentiGame.moves) {
 			lentiGame.moves = lenti.time + how;
 		}
 		lentiGame.time += how;
 
-		lenti_info[0] += how;
-		lenti_info[3][2][0] += how;
+		var t = lentiGame.moves;
+		var l = lentiGame.time;
+		//change the style of the timer to reflect this
+		document.getElementById('timer').style.right = (100 - (100 * (l / t))) + '%';
 	}
 }
 

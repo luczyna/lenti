@@ -9,6 +9,7 @@ var lentiGame = {
 	'position': 10,
 	'buffs': [ [0, 0], [0, 0], [0] ],
 	'animate': [],
+	'bg': 0,
 	'lenti': [0, 0, 0],
 	'touch': [],
 	'moving': false,
@@ -46,12 +47,13 @@ function playGame() {
 
 function prepareGameScreen() {
 	var view = lenti.screens.game.querySelector('.view');
-	view.style.height = view.offsetWidth + 'px';
+	view.style.height = window.innerHeight + 'px';
 
 	//put in a background, and start animating it
 	var b = Math.floor(Math.random() * 2);
-	// var bg = (b == 1) ? 'assets/images/bg-1.png' : 'assets/images/bg-2.png'; 
-	// lentiGame.animate[1] = window.setInterval(animateBg, 2000);
+	var bg = (b == 1) ? 'assets/images/world-1.svg' : 'assets/images/world-2.svg';
+	view.style.backgroundImage = 'url(' + bg + ')';
+	lentiGame.animate[3] = window.setInterval(animateBg, 3000);
 
     //prepare the lane, and fill in the blocks
     lentiGame.blocks.length = 0;
@@ -85,9 +87,9 @@ function loadLane() {
 		var im = document.createElement('img');
 		if (k) {
 			//add an image that will have stuff here
-			im.src = 'assets/images/tall-grass.png';
+			im.src = 'assets/images/tallgrass.svg';
 		} else {
-			im.src = 'assets/images/grass.png';
+			im.src = 'assets/images/grass.svg';
 		}
 		im.style.width = w / 5 + 'px';
 		lane.appendChild(im);
@@ -189,7 +191,7 @@ function checkWhatHappens() {
 
 		//update the block info and image
 		lentiGame.blocks[p] = 0;
-		lenti.screens.game.querySelector('.lane').children[p].src = 'assets/images/grass.png';
+		lenti.screens.game.querySelector('.lane').children[p].src = 'assets/images/grass.svg';
 	} else {
 		console.log('nothing is here');
 
@@ -452,7 +454,21 @@ function timeCountdown() {
 	//
 }
 
-function animateBg() {}
+function animateBg() {
+	var view = lenti.screens.game.querySelector('.view');
+
+	//where should we be right now?
+	var p = lentiGame.bg;
+
+	//what direction are we going?
+	if (lentiGame.lenti[0] == 0) {
+		view.style.backgroundPositionX = (p + 10) + '%';
+		lentiGame.bg += 10;
+	} else {
+		view.style.backgroundPositionX = (p - 10) + '%';
+		lentiGame.bg -= 10;
+	}
+}
 
 
 
@@ -475,6 +491,7 @@ function endGame(message) {
 	//stop the moving
 	window.clearInterval(lentiGame.animate[1]);
 	window.clearInterval(lentiGame.animate[2]);
+	window.clearInterval(lentiGame.animate[3]);
 	lentiGame.lenti[1] = 0;
 	moving = false;
 

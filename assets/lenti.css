@@ -204,11 +204,17 @@ body { overflow-x: hidden; }
 	/*right: -100%;*/
 }
 .game .view {
-	background: #f1f1f1;
+	/*background: #f1f1f1;*/
+	background-size: auto 100%;
+	background-position-y: center;
 	position: relative;
 	width: 100%;
-	background: palegreen;
 	padding: 1em 0 0;
+	-o-transition: background-position-x 3s linear;
+	-ms-transition: background-position-x 3s linear;
+	-moz-transition: background-position-x 3s linear;
+	-webkit-transition: background-position-x 3s linear;
+	transition: background-position-x 3s linear;
 }
 .view .lenti {
 	width: 20%;
