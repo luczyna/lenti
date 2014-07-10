@@ -152,3 +152,9 @@ function removeElem(parent, elem) {
 		parent.removeChild(elem[i - 1]);
 	}
 }
+
+function addEvent(elements, onwhat, fn) {
+	for (var i = 0; i < elements.length; i++) {
+		elements[i].addEventListener(onwhat, fn, false);
+	}
+}

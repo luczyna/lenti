@@ -44,7 +44,8 @@ body { overflow-x: hidden; }
 
 .home, .setup, .clan-overview,
 .treasure-collection,
-.achievement-list, .game, .modals {
+.achievement-list, .game,
+.modals, .shamanhut {
 	position: absolute;
 	width: 100%;
 	padding: 0 1%;
@@ -64,7 +65,8 @@ body { overflow-x: hidden; }
 
 .setup, .clan-overview,
 .treasure-collection,
-.achievement-list, .game, .modals {
+.achievement-list, .game,
+.modals, .shamanhut {
 	opacity: 0;
 	display: none;
 	/*right: -100;*/
@@ -495,4 +497,20 @@ body { overflow-x: hidden; }
 	width: 20%;
 	padding: 0 0.25em;
 
+}
+
+
+
+
+
+
+
+
+
+/* shaman hut */
+.shamanhut {
+	/*right: -100%;*/
+}
+.treasure-collection .t-list {
+	margin: 1em auto 0;
 }

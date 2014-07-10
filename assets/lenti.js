@@ -7,7 +7,8 @@ var lenti = {
         treasure: document.getElementById('treasureScreen'),
         achievements: document.getElementById('achievementScreen'),
         game:  document.getElementById('gameScreen'),
-        modal: document.getElementById('modalScreen')
+        modal: document.getElementById('modalScreen'),
+        shaman: document.getElementById('shamanScreen')
     },
     'stats': [0, 0, 0],
     'clan': 0,
@@ -270,6 +271,9 @@ function backToClan() {
         ts('treasure', 'clan');
     } else if (from == 'achievementScreen') {
         ts('achievements', 'clan');
+    } else if (from == 'shamanScreen') {
+        clanStatUpdate();
+        ts('shaman', 'clan');
     }
 }
 
