@@ -4,9 +4,9 @@ var lenti_clans = [
 	'name': 'Orobou',
 	'description': 'A spiritual clan, these people believe in rebirth and life as a cycle, never ending.',
 	'banner': 'assets/images/orobou.svg',
-	// 'lenti': 'assets/images/orobou-spritesheet.svg',
+	'lenti': 'assets/images/orobou-spritesheet.svg',
 	//testing purposessssss
-	'lenti': 'assets/images/terratin-spritesheet.svg',
+	// 'lenti': 'assets/images/terratin-spritesheet.svg',
 	'shaman': 'assets/images/shaman.png',
 	'ability': [1, 1, 20],
 	'leadership': [25, 75, 100],

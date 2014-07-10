@@ -38,7 +38,7 @@ lenti_monsters = [
 
 
 function foundMonster() {
-	console.log('a monster attacks you');
+	// console.log('a monster attacks you');
 
 	//what monster is it?
 	var which = checkChances(lenti_monster_chance);

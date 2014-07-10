@@ -81,14 +81,14 @@ lenti_items = [
 ];
 
 function foundItem() {
-	console.log('you found an item');
+	// console.log('you found an item');
 
 	//what are we going to get?
 	var tier = checkChances(lenti_item_chance);
 	var which = Math.floor(Math.random() * 3);
 	var item = lenti_items[tier][which];
 
-	console.log('you found a \b' + item.name);
+	// console.log('you found a \b' + item.name);
 
 	//now what happens?
 	itemBuffs(item.action);
@@ -110,11 +110,18 @@ function itemBuffs(itemInfo) {
 		lentiGame.buffs[1][0] += how;
 		lentiGame.buffs[1][1] += itemInfo[2];
 	} else if (what == 'moves') {
+		console.log('you are using an item that affects your moves');
+		console.log(how);
+		console.log(typeof(how));
+
 		//update your moves
 		lentiGame.buffs[2] = lentiGame.buffs[2] + Number(how);
 
-		if (lentiGame.time + how > lentiGame.moves) {
-			lentiGame.moves = Number(lenti.time) + Number(how);
+		var test = lentiGame.time + how;
+		if (lentiGame.moves < test) {
+			console.log('you should be seeing more time come your way');
+			console.log(test);
+			lentiGame.moves = test;
 		}
 		lentiGame.time += how;
 
@@ -173,4 +180,4 @@ var nothing_messages = [
 	"How dissapointing.",
 	"You can have it, I don't want this Nothing.",
 	"Nothing: an absence of thing."
-] 
+]

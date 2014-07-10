@@ -152,6 +152,7 @@ function foundTreasure() {
 	//update our info
 	lenti_aquired.treasure[i] = 1;
 	lenti_aquired.treasure_count[i]++;
+	console.log('treasure count: ' + lenti_aquired.treasure_count[i]);
 
 	//for the end of the game, you'll get the stat improvements
 	endGameTreasures.push(i);

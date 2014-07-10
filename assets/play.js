@@ -38,6 +38,7 @@ function playGame() {
 
     // roll the lenti into place
     window.setTimeout(function() {
+    	lenti.lenti.classList.add('slow-lenti');
     	lenti.lenti.style.left = '20%';
 
 	    //once the lenti is in place, give the player a countdown to start playing
@@ -98,6 +99,9 @@ function loadLane() {
 }
 
 function showGameStarter() {
+	//stop the lenti
+	lentiGame.lenti[1] = 0;
+	lenti.lenti.classList.remove('slow-lenti');
 	//show a popup that will start the game
 	var popup = document.createElement('div');
 	popup.classList.add('info');
@@ -121,6 +125,8 @@ function startGame() {
 	window.setTimeout(function() {
 		var view = lenti.screens.game.querySelector('.view');
 		view.removeChild(p);
+
+		lentiGame.lenti[1] = 1;
 
 		//start the timer countdown
 		lentiGame.animate[1] = window.setInterval(timeCountdown, 1000);
@@ -194,7 +200,7 @@ function checkWhatHappens() {
 		lentiGame.blocks[p] = 0;
 		lenti.screens.game.querySelector('.lane').children[p].src = 'assets/images/grass.svg';
 	} else {
-		console.log('nothing is here');
+		// console.log('nothing is here');
 
 		//write a small message that tells us there is nothing there
 		var i = Math.floor(Math.random() * nothing_messages.length);
@@ -238,7 +244,7 @@ function addTouch(what) {
 
 
 function foundMoney() {
-	console.log('you found some money');
+	// console.log('you found some money');
 
 	//you are very excited about this
 	lentiGame.lenti[2] = 0;
@@ -588,21 +594,27 @@ function goBackToClan() {
 	var el = l.getElementsByTagName('img');
 	removeElem(l, el);
 	lenti.screens.game.querySelector('.money').textContent = 0;
+	endGameTreasures.length = 0;
 
 	//animate the lenti off the screen
+	lenti.lenti.classList.add('slow-lenti');
 	lentiGame.lenti[0] = 0;
-	lentiGame.lenti[1] = 2;
+	lentiGame.lenti[1] = 1;
 	lentiGame.lenti[2] = 0;
 	lenti.lenti.style.left = '80%';
 
 	window.setTimeout(function() {
 		//stop animations
 		window.clearInterval(lentiGame.animate[0]);
+		lenti.lenti.classList.remove('slow-lenti');
 
 		//now for real get out of here
 		ts('game', 'clan');
-		document.getElementById('timer').style.right = '0%';
-		lenti.lenti.style.left = '-20%';
+
+		window.setTimeout(function() {
+			document.getElementById('timer').style.right = '0%';
+			lenti.lenti.style.left = '-20%';
+		}, 500);
 
 
 		//update Clan overview page
