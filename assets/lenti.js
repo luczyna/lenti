@@ -178,7 +178,10 @@ function updateClanOverview() {
     elem[0].textContent = 'Clan ' + lenti_clans[i].name;
 
     //set the image
-    elem[1].children[0].src = lenti_clans[i].banner;
+    elem[1].children[1].src = lenti_clans[i].banner;
+
+    //prepare the stats
+    clanStatUpdate();
 
     //prepare our actions
     document.getElementById('playGame').addEventListener('click', playGame, false);
@@ -226,6 +229,35 @@ function updateGlobalVariables() {
         lenti_aquired.achievements[1][k] = +ares[k];
         lenti_aquired.achievements[2][k] = +amov[k];
         lenti_aquired.achievements[3][k] = +arnd[k];
+    }
+}
+
+function clanStatUpdate() {
+    //check on the money
+    lenti.screens.clan.querySelector('.clan-money').textContent = lenti.money;
+
+    //check on the stats
+    var s = lenti.screens.clan.querySelectorAll('.stat-bar');
+    for (var i = 0; i < s.length; i++) {
+        var v = 100 - lenti.stats[i];
+        var realV = (v < 0) ? 0 : v;
+        s[i].style.top = realV + '%';
+    }
+
+    if (isLeader()) {
+        lenti.screens.clan.querySelector('.stuff').getElementsByTagName('h3')[0].classList.remove('notyet');
+    }
+}
+
+function isLeader() {
+    var i = lenti.clan;
+    if (lenti.stats[0] >= lenti_clans[i].leadership[0] && 
+        lenti.stats[1] >= lenti_clans[i].leadership[1] &&
+        lenti.stats[2] >= lenti_clans[i].leadership[2]
+        ) {
+        return true;
+    } else {
+        return false;
     }
 }
 

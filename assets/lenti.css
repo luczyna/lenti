@@ -169,14 +169,55 @@ body { overflow-x: hidden; }
 	display: block;
 	margin: 0;
 }
+.stuff h3 {
+	text-align: center;
+	color: tomato;	
+}
+.stuff .notyet {
+	display: none;
+}
 .stuff .options {
-	float: left;
+	/*float: left;*/
+	clear: both;
+	padding: 2em 0 0;
 	width: 50%;
+	margin: 0 auto;
 }
 .options .button {
 	display: block;
 	text-align: center;
 	margin: 0 auto 0.5em;
+}
+.clan-overview .stats {
+	width: 50%;
+	float: left;
+}
+.clan-overview .stats .stat {
+	float: left;
+	width: 33.33%;
+	text-align: center;
+}
+.stats p {
+	margin: 1em 0;
+	line-height: 1;
+	float: left;
+}
+.stats .stat .stat-bar-wrap {
+	position: relative;
+	height: 10em;
+	margin: 0 30%;
+	background: #f1f1f1;
+}
+.stat-bar-wrap .stat-bar {
+	background: tomato;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 10%;
+}
+.stat span {
+	font-size: 0.75em;
 }
 .clan-overview .messages {
 	padding: 0.5em;
