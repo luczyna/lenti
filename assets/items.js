@@ -111,10 +111,10 @@ function itemBuffs(itemInfo) {
 		lentiGame.buffs[1][1] += itemInfo[2];
 	} else if (what == 'moves') {
 		//update your moves
-		lentiGame.buffs[2] += how;
+		lentiGame.buffs[2] = lentiGame.buffs[2] + Number(how);
 
 		if (lentiGame.time + how > lentiGame.moves) {
-			lentiGame.moves = lenti.time + how;
+			lentiGame.moves = Number(lenti.time) + Number(how);
 		}
 		lentiGame.time += how;
 

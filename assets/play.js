@@ -24,8 +24,6 @@ function playGame() {
     //show the game screen
     ts('clan', 'game');
 
-    //prepare the game screen
-    prepareGameScreen();
 
     //update our Game variables
     lentiGame.moves = 15 + Math.floor(lenti.stats[2] / 5);
@@ -35,6 +33,8 @@ function playGame() {
     lentiGame.position = 10;
     lentiGame.buffs = [ [0, 0], [0, 0], [0] ];
 
+    //prepare the game screen
+    prepareGameScreen();
 
     // roll the lenti into place
     window.setTimeout(function() {
@@ -72,7 +72,7 @@ function prepareGameScreen() {
     lentiGame.lenti[1] = 1;
 
     //animate the lenti
-    lentiGame.animate[0] = window.setInterval(animateLentiSprite, 200);
+    lentiGame.animate[0] = window.setInterval(animateLentiSprite, 150);
 }
 
 //populate the block with background blocks
@@ -126,7 +126,7 @@ function startGame() {
 		lentiGame.animate[1] = window.setInterval(timeCountdown, 1000);
 
 		//start the animating of the lane and background
-		lentiGame.animate[2] = window.setInterval(animateLane, 500);
+		lentiGame.animate[2] = window.setInterval(animateLane, 750);
 
 		//add event listeners
 		lentiGame.moving = true;
@@ -184,6 +184,7 @@ function checkWhatHappens() {
 				
 				break;
 			default:
+				console.log(what);
 				console.log('found nothing, but check your checkchances');
 				break;
 		}
@@ -207,7 +208,7 @@ function checkWhatHappens() {
 function resume() {
 	lentiGame.lenti[1] = 1;
 	lentiGame.animate[1] = window.setInterval(timeCountdown, 1000);
-	lentiGame.animate[2] = window.setInterval(animateLane, 500);
+	lentiGame.animate[2] = window.setInterval(animateLane, 750);
 }
 
 function removeTouch(what) {
@@ -351,24 +352,24 @@ function removePopup() {
 	var p = this;
 	p.style.opacity = 0;
 
-	if (lentiGame.time <= 0) {
-		endGame('poop');
-	} else {
-		window.setTimeout(function() {
-			var p = lenti.screens.game.getElementsByClassName('info');
-			var v = lenti.screens.game.querySelector('.view');
-			removeElem(v, p);
-			console.log('has it been removed?');
-
+	window.setTimeout(function() {
+		var p = lenti.screens.game.getElementsByClassName('info');
+		var v = lenti.screens.game.querySelector('.view');
+		// removeElem(v, p);
+		v.removeChild(p[0]);
+		// console.log('has it been removed?');
+	
+		if (lentiGame.time <= 0) {
+			endGame('poop');
+		} else {
 			//add back the touch events
 			var view = lenti.screens.game.querySelector('.view');
 			addTouch(view);
 
 			resume();
 			lentiGame.moving = true;
-		}, 500);
-	}
-
+		}
+	}, 500);
 }
 
 
@@ -488,47 +489,122 @@ function endGame(message) {
 	console.log('the game should end now');
 	lenti.rounds++;
 
+	//remove touch for game
+	removeTouch(lenti.screens.game.querySelector('.view'));
+
 	//stop the moving
 	window.clearInterval(lentiGame.animate[1]);
 	window.clearInterval(lentiGame.animate[2]);
 	window.clearInterval(lentiGame.animate[3]);
 	lentiGame.lenti[1] = 0;
-	moving = false;
+	lentiGame.moving = false;
 
 	//check for things
 	var achieved = checkForAchievement();
 	console.log('achievements achieved: ' + achieved.length);
 	console.log('treasures gotten: ' + endGameTreasures.length);
 
-	if (message) {
-		console.log(message);
-	} else {
-		console.log('a normal ending');
+	//update your storage and variables
+	endGameVariableUpdates();	
+	var roundCheck = (lenti.rounds % 3) ? false : true;
+
+	//add your message
+	var end = document.createElement('div');
+	end.classList.add('info', 'endgame');
+	var m = (message) ? message : 'You\'ve collected enough for now';
+	var text = '<h2>' + m + '</h2><p>You collected <strong class="amazing">' + lentiGame.money + '</strong> gold.</p>';
+	if (achieved.length) {
+		text += '<h3>Achievements</h3><ul>'
+		for (var i = 0; i < achieved.length; i++) {
+			text += '<li>' + achieved[i] + '</li>';
+		}
+		text += '</ul>';
 	}
+	if (endGameTreasures.length) {
+		text += '<h3>Treasures</h3>'
+		for (var i = 0; i < endGameTreasures.length; i++) {
+			text += '<li>' + lenti_treasures[endGameTreasures[i]].name + '</li>';
+		}
+		text += '</ul>';
+	}
+	if (roundCheck) {
+		var s = everyThreeGames();
+		text += '<p>Due to your diligence, you improved your <strong>' + s + '.</strong></p>';
+	}
+	var view = lenti.screens.game.querySelector('.view');
+	end.innerHTML = text;
+	view.appendChild(end);
+	end.style.opacity = 1;
 
-	//empty things
-	// var ms = document.getElementById('game_messages');
-	// ms.innerHTML = '';
+	//update stats now after checking for Every Three Rounds
+	updateStats();
 
-	//show the end screen with data about this round
-	// lenti.screens.modal.style.right = 0;
-
-	//update our storage and localStorage
-
-	//transition to the next screen
-	// document.getElementById('backToClan').addEventListener('click', goBackToClan, false);
-
-	//empty the blocks
-	// var b = document.getElementsByClassName('b');
-	// for (var i = 0; i < b.length; i++) {
-	// 	b[i].parentNode.removeChild(b[i]);
-	// }
+	//clicking this will remove it and take us back to the clan screen
+	end.addEventListener('click', goBackToClan, false);
 }
-function goBackToClan() {
-	//transition to the next screen
-	lenti.screens.modal.style.right = '-100%';
-	lenti.screens.game.style.right = '-100%';
-	lenti.screens.clan.style.right = 0;
 
-	document.getElementById('backToClan').removeEventListener('click', goBackToClan, false);
+function endGameVariableUpdates() {
+	//rounds
+	lenti.rounds++;
+	sls('rounds', lenti.rounds);
+
+	//money
+	lenti.money += lentiGame.money;
+	sls('money', lenti.money);
+
+	//treasures
+	treasureMakesUsStrong();
+	updateTreasureLocalStorage();
+
+	//achievements are already taken care of
+
+	//do stats later
+}
+
+function updateStats() {
+	var s = lenti.stats[0] + ' ' + lenti.stats[1] + ' ' + lenti.stats[2];
+	sls('stats', s);
+}
+
+function everyThreeGames() {
+	//a random stat gets updated
+	lentiGame.lenti[1] = 2;
+
+	var which = Math.floor(Math.random() * 3);
+	var name = (which == 0) ? 'money collecting' : (which == 1) ? 'resiliency' : 'moves'; 
+	var howMuch = Math.ceil(Math.random() * 5);
+
+	lenti.stats[which] += howMuch;
+	return name;
+}
+
+function goBackToClan() {
+	//get rid of this popup
+	this.parentNode.removeChild(this);
+
+	//empty the things that should be emptied
+	lentiGame.blocks.length = 0;
+	var l = lenti.screens.game.querySelector('.lane');
+	var el = l.getElementsByTagName('img');
+	removeElem(l, el);
+	lenti.screens.game.querySelector('.money').textContent = 0;
+
+	//animate the lenti off the screen
+	lentiGame.lenti[0] = 0;
+	lentiGame.lenti[1] = 2;
+	lentiGame.lenti[2] = 0;
+	lenti.lenti.style.left = '80%';
+
+	window.setTimeout(function() {
+		//stop animations
+		window.clearInterval(lentiGame.animate[0]);
+
+		//now for real get out of here
+		ts('game', 'clan');
+		document.getElementById('timer').style.right = '0%';
+		lenti.lenti.style.left = '-20%';
+
+
+		//update Clan overview page
+	}, 2000);
 }

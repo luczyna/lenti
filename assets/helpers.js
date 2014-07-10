@@ -61,7 +61,7 @@ function handleStart(evt) {
 	lentiGame.touch[1] = evt.touches[0].clientY;
 
 	// console.log('touch start coordinates: ' + t[0] + ' ' + t[1]);
-	console.log('pausing to see this spot');
+	// console.log('pausing to see this spot');
 }
 function handleEnd(evt) {
 	evt.preventDefault();
@@ -147,8 +147,8 @@ function checkChances(input) {
 
 
 function removeElem(parent, elem) {
-	for (var i = 0; i < elem.length; i++) {
+	for (var i = elem.length; i > 0; i--) {
 		
-		parent.removeChild(elem[i]);
+		parent.removeChild(elem[i - 1]);
 	}
 }

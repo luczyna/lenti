@@ -235,11 +235,11 @@ body { overflow-x: hidden; }
 	z-index: 800;
 	top: 60%;
 	/*height: auto;*/
-	-o-transition: left 0.5s linear;
-	-ms-transition: left 0.5s linear;
-	-moz-transition: left 0.5s linear;
-	-webkit-transition: left 0.5s linear;
-	transition: left 0.5s linear;
+	-o-transition: left 0.75s linear;
+	-ms-transition: left 0.75s linear;
+	-moz-transition: left 0.75s linear;
+	-webkit-transition: left 0.75s linear;
+	transition: left 0.75s linear;
 }
 .lane img {
 	padding: 0 0.125em 0;
@@ -283,8 +283,8 @@ body { overflow-x: hidden; }
 	z-index: 990;
 	background: white;
 	padding: 5% 10%;
-	top: 4em;
-	bottom: 13em;
+	top: 25%;
+	/*bottom: 13em;*/
 	left: 1em;
 	right: 1em;
 	-o-transition: opacity 0.5s ease-in-out;
@@ -431,6 +431,7 @@ body { overflow-x: hidden; }
 .ach li {
 	list-style: none;
 	padding: 0.5em 0.25em;
+	background: tomato;
 }
 .ach .notyet {
 	background: #cacaca;

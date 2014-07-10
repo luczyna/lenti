@@ -79,5 +79,5 @@ function foundMonster() {
 	writePopup('monster', monster);
 	updateProtectionBuff();
 
-	console.log('the monster attach should be done now');
+	// console.log('the monster attach should be done now');
 }

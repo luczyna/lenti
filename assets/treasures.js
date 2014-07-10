@@ -159,6 +159,23 @@ function foundTreasure() {
 	writePopup('treasure', null);
 }
 
+function treasureMakesUsStrong() {
+	if (!endGameTreasures.length) {
+		return;
+	}
+
+	for (var i = 0; i < endGameTreasures.length; i++) {
+		var type = lenti_treasures[i].action[0];
+		if (type == 'money') {
+			lenti.stats[0] += lenti_treasures[i].action[1];
+		} else if (type == 'protect') {
+			lenti.stats[1] += lenti_treasures[i].action[1];
+		} else if (type == 'moves') {
+			lenti.stats[2] += lenti_treasures[i].action[1];
+		}
+	}
+}
+
 function updateTreasureLocalStorage() {
 	window.localStorage['lenti-treasures'] = lenti_aquired.treasure[0] + ' ' + lenti_aquired.treasure[1] + ' ' + lenti_aquired.treasure[2] + ' ' + lenti_aquired.treasure[3] + ' ' + lenti_aquired.treasure[4] + ' ' + lenti_aquired.treasure[5] + ' ' + lenti_aquired.treasure[6] + ' ' + lenti_aquired.treasure[7] + ' ' + lenti_aquired.treasure[8] + ' ' + lenti_aquired.treasure_count[0] + ' ' + lenti_aquired.treasure_count[1] + ' ' + lenti_aquired.treasure_count[2] + ' ' + lenti_aquired.treasure_count[3] + ' ' + lenti_aquired.treasure_count[4] + ' ' + lenti_aquired.treasure_count[5] + ' ' + lenti_aquired.treasure_count[6] + ' ' + lenti_aquired.treasure_count[7] + ' ' + lenti_aquired.treasure_count[8];
 	console.log('treasure localStorage updated');
